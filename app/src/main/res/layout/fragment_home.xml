@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardview_light_background"
+    tools:context=".ui.home.HomeFragment">
+
+    <!-- GeckTrack -->
+    <!-- fragment_home.xml -->
+    <!-- XML design for the Home Page -->
+
+    <!-- ViewFlipper (Holds Images) -->
+    <ViewFlipper
+        android:id="@+id/viewFlipperImages"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true">
+    </ViewFlipper>
+
+    <!-- Welcome Text View -->
+    <TextView
+        android:id="@+id/Welcome_Text_View"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="-200dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="124dp"
+        android:gravity="center_horizontal"
+        android:text="Welcome to GeckTrack!"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:translationY="-300dp">
+    </TextView>
+
+</RelativeLayout>
