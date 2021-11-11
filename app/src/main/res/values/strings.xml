@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="need_care_tips_select_a_gecko">Need Care Tips? Select a Gecko!</string>
+    <string name="welcome_to_gecktrack">Welcome to GeckTrack!</string>
+    <string name="temp_string">Upcoming Events Will Display Here</string>
 </resources>

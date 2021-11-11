@@ -1,46 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
+    android:background="@color/black"
     tools:context=".ui.home.HomeFragment">
 
     <!-- GeckTrack -->
     <!-- fragment_home.xml -->
     <!-- XML design for the Home Page -->
 
-    <!-- ViewFlipper (Holds Images) -->
-    <ViewFlipper
-        android:id="@+id/viewFlipperImages"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true">
-    </ViewFlipper>
+<!-- Scroll View -->
 
-    <!-- Welcome Text View -->
-    <TextView
-        android:id="@+id/Welcome_Text_View"
+    <ScrollView
+        android:id="@+id/HomePage_ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="-200dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        android:layout_marginBottom="124dp"
-        android:gravity="center_horizontal"
-        android:text="Welcome to GeckTrack!"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:translationY="-300dp">
-    </TextView>
+        android:layout_marginBottom="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+    <!-- Welcome Section -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/WelcomeSection_ConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="251dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:translationY="0dp">
+
+                <ViewFlipper
+                    android:id="@+id/ViewFlipperImages_GeckoImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </ViewFlipper>
+
+                <TextView
+                    android:id="@+id/TextView_Welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome_to_gecktrack"
+                    android:textColor="#C8FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ViewFlipperImages_GeckoImages" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Upcoming Events Section -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/UpcomingEventsSection_ConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+
+                <TextView
+                    android:id="@+id/TextView_Temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/temp_string"
+                    android:textColor="#A8FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Care Tips Section -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/TipsSection_ConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="411dp">
+
+                <TextView
+                    android:id="@+id/TextView_CareTips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/need_care_tips_select_a_gecko"
+                    android:textColor="#ADFFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="393dp"
+                    android:layout_height="367dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_CareTips"
+                    app:layout_constraintVertical_bias="1.0">
+
+                    <Button
+                        android:id="@+id/Button_ChineseCaveTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="20dp"
+                        android:foreground="@drawable/chinesecarebutton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/Button_KnobTailTips"
+                        app:layout_constraintTop_toBottomOf="@+id/Button_TokayTips"
+                        app:layout_constraintVertical_bias="0.05" />
+
+                    <Button
+                        android:id="@+id/Button_KnobTailTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="20dp"
+                        android:foreground="@drawable/knobcarebutton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Button_LechianusTips"
+                        app:layout_constraintVertical_bias="0.05" />
+
+                    <Button
+                        android:id="@+id/Button_GargoyleTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginRight="24dp"
+                        android:foreground="@drawable/gargoylecarebutton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/Button_KnobTailTips"
+                        app:layout_constraintTop_toBottomOf="@+id/Button_DayTips"
+                        app:layout_constraintVertical_bias="0.05" />
+
+                    <Button
+                        android:id="@+id/Button_TokayTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="20dp"
+                        android:foreground="@drawable/tokaycarebutton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/Button_LechianusTips"
+                        app:layout_constraintTop_toBottomOf="@+id/Button_CrestedTips" />
+
+                    <Button
+                        android:id="@+id/Button_LechianusTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="20dp"
+                        android:foreground="@drawable/lechianuscarebutton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Button_FatTailTips" />
+
+                    <Button
+                        android:id="@+id/Button_DayTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:foreground="@drawable/daycarebutton"
+                        app:layout_constraintEnd_toStartOf="@+id/Button_LechianusTips"
+                        app:layout_constraintHorizontal_bias="0.448"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Button_LeoTips" />
+
+                    <Button
+                        android:id="@+id/Button_CrestedTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:foreground="@drawable/crestedcarebutton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.466"
+                        app:layout_constraintStart_toEndOf="@+id/Button_FatTailTips"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/Button_FatTailTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:foreground="@drawable/aftcarebutton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/Button_LeoTips"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:foreground="@drawable/leocarebutton"
+                        app:layout_constraintEnd_toStartOf="@+id/Button_FatTailTips"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
