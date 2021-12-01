@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/faded_black"
     tools:context=".ui.home.HomeFragment">
 
     <!-- GeckTrack -->
@@ -34,9 +34,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-    <!-- Welcome Section -->
+            <!-- Welcome Section -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/WelcomeSection_ConstraintLayout"
@@ -74,7 +74,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Upcoming Events Section -->
+            <!-- Upcoming Events Section -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/UpcomingEventsSection_ConstraintLayout"
@@ -94,7 +94,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Care Tips Section -->
+            <!-- Care Tips Section -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/TipsSection_ConstraintLayout"
