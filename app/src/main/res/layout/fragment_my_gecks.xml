@@ -1,30 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
+    android:background="@color/faded_black"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <!-- GeckTrack -->
-    <!-- fragment_my_gecks.xml -->
-    <!-- XML design for the My Gecks Page -->
-
-    <TextView
-        android:id="@+id/MyGecks_Text_View"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:gravity="center_horizontal"
-        android:text="Welcome to My Gecks!"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </TextView>
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/MyGecksHeader_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="53dp">
+
+            <TextView
+                android:id="@+id/TextView_MyGecks"
+                android:layout_width="407dp"
+                android:layout_height="50dp"
+                android:background="#B7FF9F"
+                android:backgroundTint="#B7FF9F"
+                android:text="My Gecks"
+                android:textAlignment="center"
+                android:textColor="#191919"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ToolsSection_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="69dp">
+
+            <Button
+                android:id="@+id/Button_AddGecko"
+                android:layout_width="58dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="#31191919"
+                android:text="Button"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="#B2FFA6"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.473" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/GeckoListSection_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</RelativeLayout>

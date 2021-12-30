@@ -15,11 +15,24 @@
         android:id="@+id/gecko_page"
         android:name="com.example.gecktrack.ui.dashboard.DashboardFragment"
         android:label="My Gecks"
-        tools:layout="@layout/fragment_my_gecks" />
+        tools:layout="@layout/fragment_my_gecks" >
+        <action
+            android:id="@+id/action_gecko_page_to_fragment_gecko_data"
+            app:destination="@id/fragment_gecko_data" />
+    </fragment>
 
     <fragment
         android:id="@+id/schedule_page"
         android:name="com.example.gecktrack.ui.notifications.NotificationsFragment"
         android:label="Schedule"
         tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/fragment_gecko_data"
+        android:name="com.example.gecktrack.fragment_gecko_data"
+        android:label="fragment_gecko_data"
+        tools:layout="@layout/fragment_gecko_data" >
+        <action
+            android:id="@+id/action_fragment_gecko_data_to_gecko_page"
+            app:destination="@id/gecko_page" />
+    </fragment>
 </navigation>
