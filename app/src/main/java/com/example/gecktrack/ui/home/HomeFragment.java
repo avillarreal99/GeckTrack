@@ -25,9 +25,8 @@ import com.example.gecktrack.R;
 
 public class HomeFragment extends Fragment implements View.OnClickListener
 {
-//why is this commit not working
 
-// Creation Methods --------------------------------------------------------------------------------
+// CREATION METHODS --------------------------------------------------------------------------------
 
 
     private HomeViewModel homeViewModel;
@@ -43,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
-        // initialize all widgets here:
+        // initialize page features
         initializeImageSlider();
         initializeCareTipButtons();
     }
@@ -73,14 +72,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         // initialize ViewFlipper that holds gecko images
         ViewFlipper viewFlipperImages = getView().findViewById(R.id.ViewFlipperImages_GeckoImages);
 
-        // set up ImageView parameters
-        //LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //param.setMargins(30, 30, 30, 30); // set spacing between pics
-        //param.gravity = Gravity.CENTER;
-
         // create an ImageView to hold image, add image to ImageView
-        ImageView homePageImageView = new ImageView(getContext());  // may need to adjust context
-        //homePageImageView.setLayoutParams(param); // set up parameters
+        ImageView homePageImageView = new ImageView(getContext());
         homePageImageView.setBackgroundResource(image);
 
         // add ImageView to the ViewFlipper

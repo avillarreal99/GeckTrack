@@ -8,24 +8,25 @@ public class GeckoModel
 
     private  int    geckoID;
     private  String name;
-    private  int    geckoSpecies;  // foreign key, how will this work?
-    private  char   sex;
+    private  String geckoSpecies;  // acquired through Spinner
+    private  String sex;
     private  String birthday;
     private  int    age;
     private  double weight;
     private  String morph;
     private  int    temperature;
     private  int    humidity;
-    private  String purchasedFrom;
+    private  String status;
+    private  String seller;
     private  String photoID;
 
 
 // CONSTRUCTOR -------------------------------------------------------------------------------------
 
 
-    public GeckoModel(int geckoID, String name, int geckoSpecies, char sex, String birthday,
+    public GeckoModel(int geckoID, String name, String geckoSpecies, String sex, String birthday,
                       int age, double weight, String morph, int temperature, int humidity,
-                      String purchasedFrom, String photoID)
+                      String status, String seller, String photoID)
     {
         this.geckoID       = geckoID;
         this.name          = name;
@@ -37,7 +38,8 @@ public class GeckoModel
         this.morph         = morph;
         this.temperature   = temperature;
         this.humidity      = humidity;
-        this.purchasedFrom = purchasedFrom;
+        this.status        = status;
+        this.seller        = seller;
         this.photoID       = photoID;
     }
 
@@ -65,22 +67,22 @@ public class GeckoModel
         this.name = name;
     }
 
-    public int getGeckoSpecies()
+    public String getGeckoSpecies()
     {
         return geckoSpecies;
     }
 
-    public void setGeckoSpecies(int geckoSpecies)
+    public void setGeckoSpecies(String geckoSpecies)
     {
         this.geckoSpecies = geckoSpecies;
     }
 
-    public char getSex()
+    public String getSex()
     {
         return sex;
     }
 
-    public void setSex(char sex)
+    public void setSex(String sex)
     {
         this.sex = sex;
     }
@@ -145,14 +147,18 @@ public class GeckoModel
         this.humidity = humidity;
     }
 
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) { this.status = status; }
+
     public String getPurchasedFrom()
     {
-        return purchasedFrom;
+        return seller;
     }
 
     public void setPurchasedFrom(String purchasedFrom)
     {
-        this.purchasedFrom = purchasedFrom;
+        this.seller = purchasedFrom;
     }
 
     public String getPhotoID()
@@ -176,14 +182,15 @@ public class GeckoModel
                 "{\n" +
                 "  geckoID = " + geckoID + "\n" +
                 "  name = '" + name + '\'' + "\n" +
-                "  geckoSpecies = " + geckoSpecies + "\n" +
+                "  species = " + geckoSpecies + "\n" +
                 "  sex = " + sex + "\n" +
                 "  birthday = '" + birthday + '\'' + "\n" +
                 "  age = " + age + "\n" +
                 "  morph = '" + morph + '\'' + "\n" +
                 "  temperature = " + temperature + "\n" +
                 "  humidity = " + humidity + "\n" +
-                "  purchasedFrom = '" + purchasedFrom + '\'' + "\n" +
+                "  status = " + status + "\n" +
+                "  seller = '" + seller + '\'' + "\n" +
                 "  photoID = '" + photoID + '\'' + "\n" +
                 "}\n\n";
     }

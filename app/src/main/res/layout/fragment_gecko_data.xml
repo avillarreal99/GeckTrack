@@ -2,16 +2,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/faded_black"
     android:backgroundTint="@color/faded_black"
     tools:context=".fragment_gecko_data">
 
+    <!-- GeckTrack -->
+    <!-- fragment_gecko_data.xml -->
+    <!-- XML design for My Gecks data entry form -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <!-- My Gecks Header -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/MyGecksHeader_ConstraintLayout"
@@ -35,6 +42,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Instructions Section -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/InstructionsSection_ConstraintLayout"
@@ -62,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/select_quot_save_quot_to_save_changes_select_quot_cancel_quot_to_go_back"
+                android:textAlignment="center"
                 android:textColor="#CFCFCF"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -71,46 +81,328 @@
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Data Entry Section -->
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/GeckoDataEntrySection_ConstraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="651dp">
+            android:layout_height="589dp">
+
+            <Spinner
+                android:id="@+id/Spinner_GeckoStatusOptions"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="12dp"
+                android:textColor="#70FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintBottom_toTopOf="@+id/TextInput_PurchasedFrom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/TextView_GeckoStatus" />
 
             <TextView
-                android:id="@+id/TextView_PurchasedFrom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/TextView_GeckoStatus"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
-                android:text="@string/purchased_from"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
+                android:text="@string/status"
                 android:textColor="#B7B7B7"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TextView_Temperature" />
 
+            <RadioGroup
+                android:id="@+id/RadioGroup_SexOptions"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="13dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/TextView_GeckoSex"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoName">
+
+                <RadioButton
+                    android:id="@+id/RadioButton_Male"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/male"
+                    android:textColor="#B7B7B7"
+                    android:textSize="12sp" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton_Female"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/female"
+                    android:textColor="#B7B7B7"
+                    android:textSize="12sp" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton_Unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/unknown"
+                    android:textColor="#B7B7B7"
+                    android:textSize="12sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_GeckoSex"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/sex"
+                android:textColor="#B7B7B7"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_Name" />
+
+            <Spinner
+                android:id="@+id/Spinner_GeckoSpecies"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="14dp"
+                android:hint="@string/select_a_species"
+                android:textColor="#70FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintBottom_toTopOf="@+id/TextInput_GeckoMorph"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.547"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Species"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoBirthday"
+                app:layout_constraintVertical_bias="0.066" />
+
+            <TextView
+                android:id="@+id/TextView_Photo"
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/no_photo_added"
+                android:textColor="#70FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.406"
+                app:layout_constraintStart_toEndOf="@+id/Button_Photo"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_PurchasedFrom" />
+
+            <Button
+                android:id="@+id/Button_Photo"
+                android:layout_width="65dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#00232323"
+                android:textAlignment="center"
+                app:icon="@android:drawable/ic_menu_camera"
+                app:iconTint="#BCFF99"
+                app:layout_constraintStart_toEndOf="@+id/TextView_GeckoPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_PurchasedFrom" />
+
+            <TextView
+                android:id="@+id/TextView_GeckoPhoto"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/photo"
+                android:textColor="#B7B7B7"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_Seller" />
+
+            <TextView
+                android:id="@+id/TextView_HumidityLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/string_humidity_percentage"
+                android:textColor="#70FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/Spinner_GeckoStatusOptions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/TextInput_Humidity"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoWeight"
+                app:layout_constraintVertical_bias="0.017" />
+
+            <TextView
+                android:id="@+id/TextView_TemperatureLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/farenheit_symbol"
+                android:textColor="#75FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/Spinner_GeckoStatusOptions"
+                app:layout_constraintEnd_toStartOf="@+id/TextView_Humidity"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/TextInput_Temperature"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoWeight"
+                app:layout_constraintVertical_bias="0.031" />
+
+            <EditText
+                android:id="@+id/TextInput_Humidity"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="12dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/_0"
+                android:inputType="numberDecimal"
+                android:textAlignment="textEnd"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintBottom_toTopOf="@+id/Spinner_GeckoStatusOptions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Humidity"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoWeight"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/TextInput_Temperature"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="12dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/_0"
+                android:inputType="numberDecimal"
+                android:textAlignment="textEnd"
+                android:textColor="#6AFFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintBottom_toTopOf="@+id/Spinner_GeckoStatusOptions"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Temperature"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoWeight"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/TextInput_GeckoBirthday"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/enter_your_gecko_s_birthday"
+                android:inputType="date"
+                android:textColor="#72FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.547"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Birthday"
+                app:layout_constraintTop_toBottomOf="@+id/RadioGroup_SexOptions" />
+
+            <EditText
+                android:id="@+id/TextInput_GeckoWeight"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/enter_weight_in_grams"
+                android:inputType="number"
+                android:textColor="#6FFFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.547"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Weight"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoMorph" />
+
+            <EditText
+                android:id="@+id/TextInput_PurchasedFrom"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="12dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/where_is_this_gecko_from"
+                android:textColor="#77FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.435"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Seller"
+                app:layout_constraintTop_toBottomOf="@+id/Spinner_GeckoStatusOptions" />
+
+            <EditText
+                android:id="@+id/TextInput_GeckoMorph"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/enter_your_gecko_s_morph"
+                android:textColor="#72FDFDFD"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.547"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Morph"
+                tools:layout_editor_absoluteY="241dp" />
+
+            <EditText
+                android:id="@+id/TextInput_GeckoName"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="28dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/enter_your_gecko_s_name"
+                android:textColor="#72F8F6F6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Name"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/TextView_Seller"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/seller"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="#B7B7B7"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoStatus" />
+
             <TextView
                 android:id="@+id/TextView_Humidity"
-                android:layout_width="112dp"
-                android:layout_height="22dp"
-                android:layout_marginTop="316dp"
-                android:layout_marginEnd="72dp"
+                android:layout_width="75dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="21dp"
                 android:text="@string/humidity"
                 android:textAlignment="textStart"
                 android:textColor="#B7B7B7"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/TextView_Temperature"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/Spinner_GeckoStatusOptions"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_GeckoWeight"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="240dp" />
 
             <TextView
                 android:id="@+id/TextView_Temperature"
-                android:layout_width="113dp"
-                android:layout_height="21dp"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/temperature"
@@ -118,13 +410,15 @@
                 android:textColor="#B7B7B7"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/TextInput_Temperature"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TextView_Weight" />
 
             <TextView
                 android:id="@+id/TextView_Morph"
-                android:layout_width="94dp"
-                android:layout_height="23dp"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/morph"
@@ -137,10 +431,10 @@
 
             <TextView
                 android:id="@+id/TextView_Name"
-                android:layout_width="102dp"
-                android:layout_height="21dp"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="36dp"
                 android:text="@string/name"
                 android:textAlignment="textStart"
                 android:textColor="#C4C4C4"
@@ -151,8 +445,8 @@
 
             <TextView
                 android:id="@+id/TextView_Birthday"
-                android:layout_width="95dp"
-                android:layout_height="24dp"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/birthday"
@@ -161,12 +455,12 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_Name" />
+                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoSex" />
 
             <TextView
                 android:id="@+id/TextView_Species"
-                android:layout_width="94dp"
-                android:layout_height="24dp"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/species"
@@ -179,8 +473,8 @@
 
             <TextView
                 android:id="@+id/TextView_Weight"
-                android:layout_width="96dp"
-                android:layout_height="23dp"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/weight"
@@ -192,10 +486,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/TextView_Morph" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Buttons Section -->
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ButtonsSection_ConstraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="63dp">
+            android:layout_height="63dp"
+            android:background="#32131313"
+            android:backgroundTint="#505050">
 
             <Button
                 android:id="@+id/Button_Cancel"
