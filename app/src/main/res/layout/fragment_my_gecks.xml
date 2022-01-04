@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/faded_black"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.dashboard.MyGecksFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

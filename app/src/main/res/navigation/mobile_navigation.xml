@@ -3,17 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/home_page">
+    app:startDestination="@id/home_page">
 
     <fragment
         android:id="@+id/home_page"
         android:name="com.example.gecktrack.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_page_to_fragment_gecko_data"
+            app:destination="@id/fragment_gecko_data" />
+    </fragment>
 
     <fragment
         android:id="@+id/gecko_page"
-        android:name="com.example.gecktrack.ui.dashboard.DashboardFragment"
+        android:name="com.example.gecktrack.ui.dashboard.MyGecksFragment"
         android:label="My Gecks"
         tools:layout="@layout/fragment_my_gecks" >
         <action

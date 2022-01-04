@@ -8,10 +8,9 @@
 package com.example.gecktrack;
 import android.os.Bundle;
 import android.view.MenuItem;
-import com.example.gecktrack.ui.dashboard.DashboardFragment;
+import com.example.gecktrack.ui.dashboard.MyGecksFragment;
 import com.example.gecktrack.ui.home.HomeFragment;
 import com.example.gecktrack.ui.notifications.NotificationsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.navigation_my_gecks:
-                            selectedFragment = new DashboardFragment();
+                            selectedFragment = new MyGecksFragment();
                             break;
                         case R.id.navigation_schedule:
                             selectedFragment = new NotificationsFragment();
