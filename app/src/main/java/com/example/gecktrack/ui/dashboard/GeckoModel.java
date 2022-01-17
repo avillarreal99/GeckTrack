@@ -1,4 +1,4 @@
-package com.example.gecktrack;
+package com.example.gecktrack.ui.dashboard;
 
 public class GeckoModel
 {
@@ -6,16 +6,16 @@ public class GeckoModel
 // PRIVATE INSTANCE VARIABLES ----------------------------------------------------------------------
 
 
-    private  int    geckoID;
+    private  int    ID;
     private  String name;
-    private  String geckoSpecies;  // acquired through Spinner
     private  String sex;
     private  String birthday;
-    private  int    age;
-    private  double weight;
+    private  String age;
+    private  String geckoSpecies;
     private  String morph;
-    private  int    temperature;
-    private  int    humidity;
+    private  String weight;
+    private  String temperature;
+    private  String humidity;
     private  String status;
     private  String seller;
     private  String photoID;
@@ -23,12 +23,12 @@ public class GeckoModel
 
 // CONSTRUCTOR -------------------------------------------------------------------------------------
 
-
-    public GeckoModel(int geckoID, String name, String geckoSpecies, String sex, String birthday,
-                      int age, double weight, String morph, int temperature, int humidity,
-                      String status, String seller, String photoID)
+    // creating a new gecko constructor
+    public GeckoModel(int ID, String name, String sex, String birthday, String age,
+                      String geckoSpecies, String morph, String weight, String temperature,
+                      String humidity, String status, String seller, String photoID)
     {
-        this.geckoID       = geckoID;
+        this.ID            = ID;
         this.name          = name;
         this.geckoSpecies  = geckoSpecies;
         this.sex           = sex;
@@ -43,18 +43,28 @@ public class GeckoModel
         this.photoID       = photoID;
     }
 
+    // getting list of geckos constructor (My Gecks Page list)
+    public GeckoModel(String name, String sex, String age, String geckoSpecies, String morph, String photoID)
+    {
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.geckoSpecies = geckoSpecies;
+        this.morph = morph;
+        this.photoID = photoID;
+    }
 
 // GETTERS AND SETTERS -----------------------------------------------------------------------------
 
 
-    public int getGeckoID()
+    public int getID()
     {
-        return geckoID;
+        return ID;
     }
 
-    public void setGeckoID(int geckoId)
+    public void setID(int ID)
     {
-        this.geckoID = geckoId;
+        this.ID = ID;
     }
 
     public String getName()
@@ -97,22 +107,22 @@ public class GeckoModel
         this.birthday = birthday;
     }
 
-    public int getAge()
+    public String getAge()
     {
         return age;
     }
 
-    public void setAge(int age)
+    public void setAge(String age)
     {
         this.age = age;
     }
 
-    public double getWeight()
+    public String getWeight()
     {
         return weight;
     }
 
-    public void setWeight(double weight)
+    public void setWeight(String weight)
     {
         this.weight = weight;
     }
@@ -127,22 +137,22 @@ public class GeckoModel
         this.morph = morph;
     }
 
-    public int getTemperature()
+    public String getTemperature()
     {
         return temperature;
     }
 
-    public void setTemperature(int temperature)
+    public void setTemperature(String temperature)
     {
         this.temperature = temperature;
     }
 
-    public int getHumidity()
+    public String getHumidity()
     {
         return humidity;
     }
 
-    public void setHumidity(int humidity)
+    public void setHumidity(String humidity)
     {
         this.humidity = humidity;
     }
@@ -151,12 +161,12 @@ public class GeckoModel
 
     public void setStatus(String status) { this.status = status; }
 
-    public String getPurchasedFrom()
+    public String getSeller()
     {
         return seller;
     }
 
-    public void setPurchasedFrom(String purchasedFrom)
+    public void setSeller(String purchasedFrom)
     {
         this.seller = purchasedFrom;
     }
@@ -180,13 +190,14 @@ public class GeckoModel
     {
         return "GeckoModel\n" +
                 "{\n" +
-                "  geckoID = " + geckoID + "\n" +
+                "  ID = '" + ID + '\'' + "\n" +
                 "  name = '" + name + '\'' + "\n" +
-                "  species = " + geckoSpecies + "\n" +
                 "  sex = " + sex + "\n" +
                 "  birthday = '" + birthday + '\'' + "\n" +
                 "  age = " + age + "\n" +
+                "  species = " + geckoSpecies + "\n" +
                 "  morph = '" + morph + '\'' + "\n" +
+                "  weight = '" + weight + '\'' + "\n" +
                 "  temperature = " + temperature + "\n" +
                 "  humidity = " + humidity + "\n" +
                 "  status = " + status + "\n" +

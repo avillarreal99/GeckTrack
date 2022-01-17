@@ -32,11 +32,21 @@
         tools:layout="@layout/fragment_schedule" />
     <fragment
         android:id="@+id/fragment_gecko_data"
-        android:name="com.example.gecktrack.fragment_gecko_data"
+        android:name="com.example.gecktrack.ui.dashboard.fragment_gecko_data"
         android:label="fragment_gecko_data"
         tools:layout="@layout/fragment_gecko_data" >
         <action
             android:id="@+id/action_fragment_gecko_data_to_gecko_page"
             app:destination="@id/gecko_page" />
     </fragment>
+    <fragment
+        android:id="@+id/fragment_selected_gecko"
+        android:name="com.example.gecktrack.ui.dashboard.fragment_selected_gecko"
+        android:label="fragment_selected_gecko"
+        tools:layout="@layout/fragment_selected_gecko" />
+    <fragment
+        android:id="@+id/fragment_event_data_form"
+        android:name="com.example.gecktrack.fragment_event_data_form"
+        android:label="fragment_event_data_form"
+        tools:layout="@layout/fragment_event_data_form" />
 </navigation>

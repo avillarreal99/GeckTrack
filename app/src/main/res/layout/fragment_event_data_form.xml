@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/faded_black"
+    android:backgroundTint="@color/faded_black"
+    tools:context=".fragment_event_data_form"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/CalendarHeader_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="51dp">
+
+        <TextView
+            android:id="@+id/TextView_CalendarHeader"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="#B7FF9F"
+            android:backgroundTint="#B7FF9F"
+            android:text="@string/calendar"
+            android:textAlignment="center"
+            android:textColor="#191919"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/InstructionsSection_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/TextView_EventInstructions1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insert_event_information"
+            android:textAlignment="center"
+            android:textColor="#D8D8D8"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.266" />
+
+        <TextView
+            android:id="@+id/TextView_EventInstructions2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/select_quot_save_quot_to_save_changes_select_quot_cancel_quot_to_go_back"
+            android:textAlignment="center"
+            android:textColor="#CFCFCF"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView_EventInstructions1"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollView_EventData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/EventDataEntrySection_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_Save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/save"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.712"
+                app:layout_constraintStart_toEndOf="@+id/button_Cancel"
+                app:layout_constraintTop_toBottomOf="@+id/ChipGroup_GeckoChips"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/button_Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginBottom="30dp"
+                android:backgroundTint="#E69595"
+                android:text="@string/cancel"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_ForGecko"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/ChipGroup_GeckoChips"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toEndOf="@+id/TextView_ForGecko"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_EventNotes">
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/TimeSection_ConstraintLayout"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toEndOf="@+id/TextView_EventTime"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_EventDate">
+
+                <EditText
+                    android:id="@+id/TextInput_EventTime"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/hh_mm"
+                    android:inputType="time"
+                    android:textAlignment="textStart"
+                    android:textColor="#70FFFFFF"
+                    android:textColorHint="#70FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/RadioGroup_TimeOptions"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/RadioGroup_TimeOptions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/RadioButton_AM"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:checked="true"
+                        android:text="@string/am"
+                        android:textColor="#B7B7B7" />
+
+                    <RadioButton
+                        android:id="@+id/RadioButton_PM"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:text="@string/pm"
+                        android:textColor="#B7B7B7" />
+                </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/NotificationsSection_ConstraintLayout"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toEndOf="@+id/TextView_Notifications"
+                app:layout_constraintTop_toBottomOf="@+id/TimeSection_ConstraintLayout">
+
+                <TextView
+                    android:id="@+id/TextView_Off"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:text="@string/off"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/Switch_Notifications"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Switch
+                    android:id="@+id/Switch_Notifications"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/data_input_color"
+                    android:textColorHint="@color/data_input_color"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <EditText
+                android:id="@+id/TextInput_EventNotes"
+                android:layout_width="225dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="14dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/add_any_notes_for_this_event_describe_it_or_add_important_points"
+                android:inputType="textMultiLine"
+                android:textColor="#70FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toEndOf="@+id/TextView_EventNotes"
+                app:layout_constraintTop_toBottomOf="@+id/NotificationsSection_ConstraintLayout" />
+
+            <EditText
+                android:id="@+id/TextInput_EventDate"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="14dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/mm_dd_yyyy"
+                android:inputType="date"
+                android:textColor="#70FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toEndOf="@+id/TextView_EventDate"
+                app:layout_constraintTop_toBottomOf="@+id/Spinner_EventTypes" />
+
+            <Spinner
+                android:id="@+id/Spinner_EventTypes"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/select_a_type"
+                android:textColor="#70FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.666"
+                app:layout_constraintStart_toEndOf="@+id/TextView_EventType"
+                app:layout_constraintTop_toBottomOf="@+id/TextInput_EventName" />
+
+            <EditText
+                android:id="@+id/TextInput_EventName"
+                android:layout_width="225dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/enter_a_name_for_event"
+                android:inputType="textPersonName"
+                android:textColor="#70FFFFFF"
+                android:textColorHint="#70FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.909"
+                app:layout_constraintStart_toEndOf="@+id/TextView_EventName"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/TextView_EventNotes"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/notes"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_Notifications" />
+
+            <TextView
+                android:id="@+id/TextView_Notifications"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/notifications"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_EventTime" />
+
+            <TextView
+                android:id="@+id/TextView_EventTime"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/time"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_EventDate" />
+
+            <TextView
+                android:id="@+id/TextView_EventDate"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/date"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_EventType" />
+
+            <TextView
+                android:id="@+id/TextView_ForGecko"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="106dp"
+                android:text="@string/for_gecko_s"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_EventNotes" />
+
+            <TextView
+                android:id="@+id/TextView_EventType"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/event_type"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_EventName" />
+
+            <TextView
+                android:id="@+id/TextView_EventName"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="36dp"
+                android:text="@string/event_name"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -6,7 +6,6 @@
     <string name="need_care_tips_select_a_gecko">Need Care Tips? Select a Gecko!</string>
     <string name="welcome_to_gecktrack">Welcome to GeckTrack!</string>
     <string name="temp_string">Upcoming Events Will Display Here</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_gecks">My Gecks</string>
     <string name="save">Save</string>
@@ -38,6 +37,44 @@
     <string name="female">Female</string>
     <string name="unknown">Unknown</string>
     <string name="status">Status</string>
+    <string name="select_a_status">Select a status</string>
+    <string name="mm_dd_yyyy">mm/dd/yyyy</string>
+    <string name="_0_0">0.0</string>
+    <string name="grams_g">grams (g)</string>
+    <string name="_000_00">000.00</string>
+    <string name="enter_a_species">Enter a species</string>
+    <string name="gecko_photo">Gecko Photo</string>
+    <string name="gecko_name_placeholder">Gecko Name Placeholder</string>
+    <string name="age">Age</string>
+    <string name="feeding">Feeding</string>
+    <string name="cleaning">Cleaning</string>
+    <string name="weighing">Weighing</string>
+    <string name="health">Health</string>
+    <string name="appointment">Appointment</string>
+    <string name="breeding">Breeding</string>
+    <string name="other">Other</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="section_border">____________________________________________________________________</string>
+    <string name="shedding">Shedding</string>
+    <string name="calendar">Calendar</string>
+    <string name="insert_event_information">Insert event information!</string>
+    <string name="off">OFF</string>
+    <string name="time">Time</string>
+    <string name="for_gecko_s">For Gecko(s)</string>
+    <string name="select_a_type">select a type</string>
+    <string name="enter_a_name_for_event">Enter a name for event</string>
+    <string name="event_name">Event Name</string>
+    <string name="date">Date</string>
+    <string name="event_type">Event Type</string>
+    <string name="notifications">Notifications</string>
+    <string name="notes">Notes</string>
+    <string name="in_format_hh_mm">In format hh:mm</string>
+    <string name="in_format_mm_dd_yyyy">In format mm/dd/yyyy</string>
+    <string name="add_any_notes_for_this_event_describe_it_or_add_important_points">Add any notes for this event, describe it, or add important points!</string>
+    <string name="hh_mm">hh:mm</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
     <string-array name="GeckoSpeciesOptions">
         <item>Leopard</item>
         <item>African Fat-Tailed</item>
@@ -54,5 +91,15 @@
         <item>Pet Only</item>
         <item>Breeder</item>
         <item>Special Needs</item>
+    </string-array>
+    <string-array name="EventTypeOptions">
+        <item>Feeding</item>
+        <item>Cleaning</item>
+        <item>Shedding</item>
+        <item>Weighing</item>
+        <item>Appointment</item>
+        <item>Health</item>
+        <item>Breeding</item>
+        <item>Other</item>
     </string-array>
 </resources>

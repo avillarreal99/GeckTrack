@@ -22,17 +22,17 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/MyGecksHeader_ConstraintLayout"
+            android:id="@+id/CalendarHeader_ConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="53dp">
 
             <TextView
-                android:id="@+id/TextView_MyGecks"
-                android:layout_width="407dp"
+                android:id="@+id/TextView_CalendarHeader"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="#B7FF9F"
                 android:backgroundTint="#B7FF9F"
-                android:text="My Gecks"
+                android:text="@string/my_gecks"
                 android:textAlignment="center"
                 android:textColor="#191919"
                 android:textSize="30sp"
@@ -54,7 +54,6 @@
                 android:layout_height="50dp"
                 android:layout_marginEnd="24dp"
                 android:backgroundTint="#31191919"
-                android:text="Button"
                 app:icon="@android:drawable/ic_input_add"
                 app:iconTint="#B2FFA6"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -63,12 +62,17 @@
                 app:layout_constraintVertical_bias="0.473" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/GeckoListSection_ConstraintLayout"
+        <ScrollView
+            android:id="@+id/ScrollView_GeckoList"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/LinearLayout_GeckoList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 </RelativeLayout>
