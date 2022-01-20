@@ -6,7 +6,7 @@
 // -------------------------------------------------------------------------------------------------
 
 
-package com.example.gecktrack;
+package com.example.gecktrack.ui.notifications;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.gecktrack.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;

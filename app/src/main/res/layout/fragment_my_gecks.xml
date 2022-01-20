@@ -46,10 +46,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ToolsSection_ConstraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="69dp">
+            android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/Button_AddGecko"
+                android:id="@+id/Button_AddEvent"
                 android:layout_width="58dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="24dp"

@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/home_page"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_my_gecks"
+        android:id="@+id/gecko_page"
         android:icon="@drawable/ic_launcher_list_foreground"
-        android:title="My Gecks" />
+        android:title="@string/my_gecks" />
 
 
     <item
-        android:id="@+id/navigation_schedule"
+        android:id="@+id/schedule_page"
         android:icon="@drawable/ic_launcher_calendar_foreground"
-        android:title="Schedule" />
+        android:title="@string/calendar" />
 
 </menu>

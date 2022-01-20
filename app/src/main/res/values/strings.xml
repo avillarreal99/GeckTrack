@@ -55,7 +55,7 @@
     <string name="other">Other</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
-    <string name="section_border">____________________________________________________________________</string>
+    <string name="section_border">___________________________________________________________</string>
     <string name="shedding">Shedding</string>
     <string name="calendar">Calendar</string>
     <string name="insert_event_information">Insert event information!</string>

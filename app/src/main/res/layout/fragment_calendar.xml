@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/faded_black"
+    android:orientation="vertical"
+    tools:context=".ui.notifications.CalendarFragment" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/CalendarHeader_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/TextView_CalendarHeader"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="#B7FF9F"
+            android:backgroundTint="#B7FF9F"
+            android:text="@string/calendar"
+            android:textAlignment="center"
+            android:textColor="#191919"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ToolsSection_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/Button_AddEvent"
+            android:layout_width="58dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="#31191919"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconTint="#B2FFA6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.473" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/CalendarSection_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="475dp">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/CalendarKey_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

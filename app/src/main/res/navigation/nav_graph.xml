@@ -9,11 +9,7 @@
         android:id="@+id/home_page"
         android:name="com.example.gecktrack.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_home_page_to_fragment_gecko_data"
-            app:destination="@id/fragment_gecko_data" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/gecko_page"
@@ -23,13 +19,16 @@
         <action
             android:id="@+id/action_gecko_page_to_fragment_gecko_data"
             app:destination="@id/fragment_gecko_data" />
+        <action
+            android:id="@+id/action_gecko_page_to_fragment_selected_gecko"
+            app:destination="@id/fragment_selected_gecko" />
     </fragment>
 
     <fragment
         android:id="@+id/schedule_page"
-        android:name="com.example.gecktrack.ui.notifications.NotificationsFragment"
+        android:name="com.example.gecktrack.ui.notifications.CalendarFragment"
         android:label="Schedule"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/fragment_gecko_data"
         android:name="com.example.gecktrack.ui.dashboard.fragment_gecko_data"
@@ -43,10 +42,14 @@
         android:id="@+id/fragment_selected_gecko"
         android:name="com.example.gecktrack.ui.dashboard.fragment_selected_gecko"
         android:label="fragment_selected_gecko"
-        tools:layout="@layout/fragment_selected_gecko" />
+        tools:layout="@layout/fragment_selected_gecko" >
+        <action
+            android:id="@+id/action_fragment_selected_gecko_to_gecko_page"
+            app:destination="@id/gecko_page" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_event_data_form"
-        android:name="com.example.gecktrack.fragment_event_data_form"
+        android:name="com.example.gecktrack.ui.notifications.fragment_event_data_form"
         android:label="fragment_event_data_form"
         tools:layout="@layout/fragment_event_data_form" />
 </navigation>

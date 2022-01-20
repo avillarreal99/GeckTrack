@@ -43,18 +43,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/TextView_ButtonsBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/section_border"
-                android:textAlignment="center"
-                android:textColor="#70FFFFFF"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="958dp" />
-
             <Button
                 android:id="@+id/BackToMyGecksPage_Button"
                 android:layout_width="75dp"
@@ -69,11 +57,337 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/ImageView_GeckoPhoto"
+                android:layout_width="258dp"
+                android:layout_height="264dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp"
+                android:contentDescription="@string/gecko_photo"
+                android:src="@drawable/leocarebutton"
+                app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/TextView_GeckoName"
+                android:layout_width="350dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/gecko_name_placeholder"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoSpecies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ImageView_GeckoPhoto" />
+
+            <TextView
+                android:id="@+id/TextView_GeckoMorph"
+                android:layout_width="350dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/morph"
+                android:textAlignment="center"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/GeckoMinorDataSection_ConstraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoSpecies" />
+
+            <TextView
+                android:id="@+id/TextView_GeckoSpecies"
+                android:layout_width="350dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/species"
+                android:textAlignment="center"
+                android:textColor="@color/data_input_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoMorph"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoName" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/GeckoMinorDataSection_ConstraintLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:layout_constraintBottom_toTopOf="@+id/GeckoCareButtonsSection_ConstraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoMorph">
+
+                <TextView
+                    android:id="@+id/TextView_GeckoGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/sex"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoBirthday"
+                    app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoWeight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoBirthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/birthday"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoStatusOption"
+                    app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoAge"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoGender" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/temperature"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoHumidity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoStatusOption" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/humidity"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TextView_GeckoTemperature"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoSeller" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoSeller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/seller"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoHumidity"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TextView_GeckoStatusOption"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoAge" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/age"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoSeller"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TextView_GeckoBirthday"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoWeight" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/weight"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoAge"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TextView_GeckoGender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/TextView_GeckoStatusOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/status"
+                    android:textColor="@color/data_input_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoTemperature"
+                    app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoSeller"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoBirthday" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/GeckoCareButtonsSection_ConstraintLayout"
+                android:layout_width="488dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/TextView_ButtonsBorder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/GeckoMinorDataSection_ConstraintLayout">
+
+                <Button
+                    android:id="@+id/CleaningCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:backgroundTint="#C6F5E0"
+                    android:text="@string/cleaning"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/WeighingCareCategory_Button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/FeedingCategoryCare_Button"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/FeedingCategoryCare_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:backgroundTint="#EAC3D5"
+                    android:text="@string/feeding"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/SheddingCareCategory_Button"
+                    app:layout_constraintEnd_toStartOf="@+id/CleaningCareCategory_Button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/SheddingCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#C5DAEC"
+                    android:text="@string/shedding"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/AppointmentCareCategory_Button"
+                    app:layout_constraintEnd_toStartOf="@+id/WeighingCareCategory_Button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/FeedingCategoryCare_Button" />
+
+                <Button
+                    android:id="@+id/AppointmentCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#ECBD94"
+                    android:text="@string/appointment"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/BreedingCareCategory_Button"
+                    app:layout_constraintEnd_toStartOf="@+id/HealthCareCategory_Button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/SheddingCareCategory_Button" />
+
+                <Button
+                    android:id="@+id/BreedingCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="36dp"
+                    android:backgroundTint="#FAF6CF"
+                    android:text="@string/breeding"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/OtherCareCategory_Button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/AppointmentCareCategory_Button" />
+
+                <Button
+                    android:id="@+id/OtherCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="36dp"
+                    android:backgroundTint="#B3F4B3"
+                    android:text="@string/other"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/BreedingCareCategory_Button"
+                    app:layout_constraintTop_toBottomOf="@+id/HealthCareCategory_Button" />
+
+                <Button
+                    android:id="@+id/HealthCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#D3B0EA"
+                    android:text="@string/health"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/OtherCareCategory_Button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/AppointmentCareCategory_Button"
+                    app:layout_constraintTop_toBottomOf="@+id/WeighingCareCategory_Button" />
+
+                <Button
+                    android:id="@+id/WeighingCareCategory_Button"
+                    android:layout_width="150dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#F2D7CF"
+                    android:text="@string/weighing"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/HealthCareCategory_Button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/SheddingCareCategory_Button"
+                    app:layout_constraintTop_toBottomOf="@+id/CleaningCareCategory_Button" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/TextView_ButtonsBorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/section_border"
+                android:textAlignment="center"
+                android:textColor="#70FFFFFF"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/DeleteGecko_Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/GeckoCareButtonsSection_ConstraintLayout" />
+
             <Button
                 android:id="@+id/DeleteGecko_Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
                 android:backgroundTint="#FB8A8A"
                 android:text="@string/delete"
@@ -90,308 +404,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="105dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
                 android:text="@string/edit"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/DeleteGecko_Button"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_ButtonsBorder" />
+                app:layout_constraintTop_toBottomOf="@+id/TextView_ButtonsBorder"
+                app:layout_constraintVertical_bias="1.0" />
 
-            <Button
-                android:id="@+id/OtherCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="17dp"
-                android:backgroundTint="#B3F4B3"
-                android:text="@string/other"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/TextView_ButtonsBorder"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.55"
-                app:layout_constraintStart_toEndOf="@+id/BreedingCareCategory_Button"
-                app:layout_constraintTop_toBottomOf="@+id/HealthCareCategory_Button" />
-
-            <Button
-                android:id="@+id/BreedingCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="17dp"
-                android:backgroundTint="#FAF6CF"
-                android:text="@string/breeding"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/TextView_ButtonsBorder"
-                app:layout_constraintEnd_toStartOf="@+id/OtherCareCategory_Button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/AppointmentCareCategory_Button" />
-
-            <Button
-                android:id="@+id/HealthCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="36dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="#D3B0EA"
-                android:text="@string/health"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/OtherCareCategory_Button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/AppointmentCareCategory_Button"
-                app:layout_constraintTop_toBottomOf="@+id/WeighingCareCategory_Button" />
-
-            <Button
-                android:id="@+id/AppointmentCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:layout_marginEnd="44dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="#ECBD94"
-                android:text="@string/appointment"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/BreedingCareCategory_Button"
-                app:layout_constraintEnd_toStartOf="@+id/HealthCareCategory_Button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/SheddingCareCategory_Button" />
-
-            <Button
-                android:id="@+id/WeighingCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="#F2D7CF"
-                android:text="@string/weighing"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/HealthCareCategory_Button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SheddingCareCategory_Button"
-                app:layout_constraintTop_toBottomOf="@+id/CleaningCareCategory_Button" />
-
-            <Button
-                android:id="@+id/SheddingCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="#C5DAEC"
-                android:text="@string/shedding"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/AppointmentCareCategory_Button"
-                app:layout_constraintEnd_toStartOf="@+id/WeighingCareCategory_Button"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/FeedingCategoryCare_Button" />
-
-            <Button
-                android:id="@+id/CleaningCareCategory_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="#C6F5E0"
-                android:text="@string/cleaning"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/WeighingCareCategory_Button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/FeedingCategoryCare_Button"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoHumidity" />
-
-            <Button
-                android:id="@+id/FeedingCategoryCare_Button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="44dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="#EAC3D5"
-                android:text="@string/feeding"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/SheddingCareCategory_Button"
-                app:layout_constraintEnd_toStartOf="@+id/CleaningCareCategory_Button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoTemperature" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoStatusOption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/status"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoSeller"
-                app:layout_constraintHorizontal_bias="0.621"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoBirthday" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoHumidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="88dp"
-                android:text="@string/humidity"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoSeller" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoTemperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/temperature"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoHumidity"
-                app:layout_constraintHorizontal_bias="0.664"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoStatusOption" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoSeller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="108dp"
-                android:text="@string/seller"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoAge" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoAge"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="112dp"
-                android:text="@string/age"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoWeight" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoBirthday"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginStart="76dp"
-                android:layout_marginTop="14dp"
-                android:text="@string/birthday"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/TextView_GeckoAge"
-                app:layout_constraintHorizontal_bias="0.325"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoGender" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="14dp"
-                android:text="@string/weight"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.449"
-                app:layout_constraintStart_toEndOf="@+id/TextView_GeckoGender"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoMorph" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoGender"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginStart="136dp"
-                android:layout_marginTop="14dp"
-                android:text="@string/sex"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoMorph" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoMorph"
-                android:layout_width="350dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="14dp"
-                android:text="@string/morph"
-                android:textAlignment="center"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoSpecies" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoSpecies"
-                android:layout_width="350dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="14dp"
-                android:text="@string/species"
-                android:textAlignment="center"
-                android:textColor="@color/data_input_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoName" />
-
-            <ImageView
-                android:id="@+id/ImageView_GeckoPhoto"
-                android:layout_width="258dp"
-                android:layout_height="264dp"
-                android:layout_marginTop="28dp"
-                android:contentDescription="@string/gecko_photo"
-                android:src="@drawable/fatgecko"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/TextView_GeckoName"
-                android:layout_width="350dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="28dp"
-                android:text="@string/gecko_name_placeholder"
-                android:textAlignment="center"
-                android:textColor="@color/data_input_color"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ImageView_GeckoPhoto" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

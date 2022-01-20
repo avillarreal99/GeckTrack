@@ -17,6 +17,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -715,7 +715,7 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
                     DatabaseHelper dbHelper = new DatabaseHelper(getContext());
                     boolean success = dbHelper.addGecko(gecko);
 
-                    System.out.println("Success in adding gecko = " + success);
+                    Navigation.findNavController(getView()).navigate(R.id.action_fragment_gecko_data_to_gecko_page);
 
                 }
                 // at least one required field is wrong, find the invalid ones
@@ -776,8 +776,7 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         {
             public void onClick(View v)
             {
-                System.out.println("Attempt to leave page");
-                // Code here executes on main thread after user presses button
+                Navigation.findNavController(getView()).navigate(R.id.action_fragment_gecko_data_to_gecko_page);
             }
         });
     }

@@ -98,15 +98,23 @@ public class DatabaseHelper extends SQLiteOpenHelper
             // loop through cursor set, get relevant data
             do
             {
-                String name = cursor.getString(1);
-                String species = cursor.getString(2);
-                String sex = cursor.getString(3);
-                String age = cursor.getString(5);
-                String morph = cursor.getString(6);
-                String photo = cursor.getString(12);
+                int    ID           = cursor.getInt(0);
+                String name         = cursor.getString(1);
+                String species      = cursor.getString(2);
+                String sex          = cursor.getString(3);
+                String birthday     = cursor.getString(4);
+                String age          = cursor.getString(5);
+                String morph        = cursor.getString(6);
+                String weight       = cursor.getString(7);
+                String temperature  = cursor.getString(8);
+                String humidity     = cursor.getString(9);
+                String status       = cursor.getString(10);
+                String seller       = cursor.getString(11);
+                String photo        = cursor.getString(12);
 
                 // create new gecko, add to returnList
-                GeckoModel listGecko = new GeckoModel(name, sex, age, species, morph, photo);
+                GeckoModel listGecko = new GeckoModel(ID, name, sex, birthday, age, species, morph,
+                                             weight, temperature, humidity, status, seller, photo);
                 returnList.add(listGecko);
 
             } while(cursor.moveToNext());
