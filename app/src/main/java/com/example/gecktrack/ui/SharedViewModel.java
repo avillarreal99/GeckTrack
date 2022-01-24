@@ -13,7 +13,12 @@ import com.example.gecktrack.ui.dashboard.GeckoModel;
 
 public class SharedViewModel extends ViewModel
 {
-    private MutableLiveData<GeckoModel> gecko = new MutableLiveData<>();
+    private MutableLiveData<GeckoModel> gecko = new MutableLiveData<>(); // gecko
+    private MutableLiveData<String> eventType = new MutableLiveData<>(); // event type
+
+
+// GECKO METHODS -----------------------------------------------------------------------------------
+
 
     // set the stored gecko to be the selected gecko
     public void setGecko(GeckoModel selectedGecko)
@@ -26,4 +31,21 @@ public class SharedViewModel extends ViewModel
     {
         return gecko;
     }
+
+
+// EVENT TYPE METHODS ------------------------------------------------------------------------------
+
+
+    // set the stored gecko to be the selected gecko
+    public void setEventType(String selectedEventType)
+    {
+        eventType.setValue(selectedEventType);
+    }
+
+    // send the stored gecko data back
+    public LiveData<String> getEventType()
+    {
+        return eventType;
+    }
+
 }

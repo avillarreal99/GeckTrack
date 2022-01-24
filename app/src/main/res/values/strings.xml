@@ -11,7 +11,7 @@
     <string name="save">Save</string>
     <string name="select_quot_save_quot_to_save_changes_select_quot_cancel_quot_to_go_back">Select \"Save\" to save changes, select \"Cancel\" to go back.</string>
     <string name="cancel">Cancel</string>
-    <string name="insert_your_gecko_s_information">Insert your gecko\'s information!</string>
+    <string name="insert_your_gecko_s_information">You\'re adding a new gecko! Insert your gecko\'s information!</string>
     <string name="name">Name</string>
     <string name="purchased_from">Purchased From</string>
     <string name="weight">Weight</string>
@@ -35,7 +35,6 @@
     <string name="sex">Sex</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="unknown">Unknown</string>
     <string name="status">Status</string>
     <string name="select_a_status">Select a status</string>
     <string name="mm_dd_yyyy">mm/dd/yyyy</string>
@@ -75,6 +74,11 @@
     <string name="hh_mm">hh:mm</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="the_user_s_gecko">the user\'s gecko</string>
+    <string name="photo_selected">Photo Selected</string>
+    <string name="no_photo">No photo</string>
+    <string name="unknown">Unknown</string>
+    <string name="all_geckos">All geckos</string>
     <string-array name="GeckoSpeciesOptions">
         <item>Leopard</item>
         <item>African Fat-Tailed</item>

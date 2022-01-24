@@ -9,6 +9,7 @@
 package com.example.gecktrack.ui.dashboard;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,7 +18,10 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+
+import android.os.Messenger;
 import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
+import com.example.gecktrack.ui.SharedViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.IOException;
 import java.text.ParseException;
@@ -51,14 +56,13 @@ import static android.app.Activity.RESULT_OK;
 // -------------------------------------------------------------------------------------------------
 
 
-/*
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_gecko_data#newInstance} factory method to
- * create an instance of this fragment.
- */
-
 public class fragment_gecko_data extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener
 {
+    // viewmodel variables
+    SharedViewModel viewModel;
+    GeckoModel editGecko;
+    private boolean editing;
+    private boolean adding;
 
     // User input widgets from xml code
     EditText geckoName;
@@ -70,6 +74,10 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     EditText geckoHumidity;
     EditText geckoSeller;
     Spinner  geckoStatusOptionSpinner;
+    RadioButton maleSex;
+    RadioButton femaleSex;
+    RadioButton unknownSex;
+    ArrayAdapter<CharSequence> statusAdapter;
 
     // Text label widgets from xml code
     TextView nameLabel;
@@ -80,7 +88,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     TextView humidityLabel;
     TextView statusLabel;
     TextView photoDescription;
-
 
     // variables to hold GeckoModel Data:
     String name;
@@ -106,45 +113,8 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     boolean validStatus = false;
     boolean validSpecies = false;
 
-    /*
-    // Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    */
-
-    /*
-    // Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-     */
-
-    public fragment_gecko_data()
-    {
-        // Required empty public constructor
-    }
-
-    /*
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_gecko_data.
-     */
-
-    /*
-    // Rename and change types and number of parameters
-    public static fragment_gecko_data newInstance(String param1, String param2)
-    {
-        fragment_gecko_data fragment = new fragment_gecko_data();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-     */
+    // Required empty public constructor
+    public fragment_gecko_data() {}
 
 
 // CREATION METHODS --------------------------------------------------------------------------------
@@ -153,20 +123,15 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
-        /*
-        if (getArguments() != null)
-        {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-         */
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        // initialize view model
+        viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gecko_data, container, false);
     }
@@ -186,6 +151,118 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         initializePhotoButton();
         initializeSaveButton();
         initializeCancelButton();
+
+        // check if editing a gecko or adding
+        editingOrAdding();
+    }
+
+
+// EDITING GECKO METHODS ---------------------------------------------------------------------------
+
+
+    // check if user is editing or adding a gecko
+    public void editingOrAdding()
+    {
+        // initialize instruction label
+        TextView instructions = getView().findViewById(R.id.TextView_GeckoInstructions1);
+
+        // user is adding a new gecko
+        if (viewModel.getGecko().getValue() == null)
+        {
+            adding = true;
+            editing = false;
+            instructions.setText(R.string.insert_your_gecko_s_information);
+        }
+        else // user is editing existing gecko
+        {
+            adding = false;
+            editing = true;
+            editGecko = viewModel.getGecko().getValue();
+            String instructionsString = "Edit " + editGecko.getName() + "'s information!";
+            instructions.setText(instructionsString);
+            preloadGeckoData();
+        }
+    }
+
+    // if editing an existing gecko, preload all data to match gecko
+    public void preloadGeckoData()
+    {
+        // set all data to be gecko's data
+        name = editGecko.getName();
+        species = editGecko.getGeckoSpecies();
+        morph = editGecko.getMorph();
+        sex = editGecko.getSex();
+        birthday = editGecko.getBirthday();
+
+        String editWeight = editGecko.getWeight();
+        String formatWeight = editWeight.substring(0, editWeight.length() - 6);
+        weight = Double.parseDouble(formatWeight);
+
+        String editTemp = editGecko.getTemperature();
+        String formatTemp = editTemp.substring(0, editTemp.length() - 2);
+        temperature = Integer.parseInt(formatTemp);
+
+        String editHum = editGecko.getHumidity();
+        String formatHum = editHum.substring(0, editHum.length() - 1);
+        humidity = Integer.parseInt(formatHum);
+
+        status = editGecko.getStatus();
+        seller = editGecko.getSeller();
+        photo = editGecko.getPhotoID();
+
+        // preload all user input fields to gecko data
+        geckoName.setText(name);
+        geckoBirthday.setText(birthday);
+        geckoSpecies.setText(species);
+        geckoMorph.setText(morph);
+        geckoWeight.setText(String.valueOf(weight));
+        geckoTemperature.setText(String.valueOf(temperature));
+        geckoHumidity.setText(String.valueOf(humidity));
+        geckoSeller.setText(seller);
+
+        // preload photo info
+        if(!editGecko.getPhotoID().contains("No photo"))
+        {
+            photoDescription.setText(R.string.photo_selected);
+        }
+
+        // preload sex
+        if (editGecko.getSex().contains("Female"))
+        {
+            femaleSex.setChecked(true);
+        }
+        else if(editGecko.getSex().contains("Male"))
+        {
+            maleSex.setChecked(true);
+        }
+        else
+        {
+            unknownSex.setChecked(true);
+        }
+
+        // preset spinner to correct option
+        if (editGecko.getStatus().contains("Pet Only"))
+        {
+            int spinnerPosition = statusAdapter.getPosition("Pet Only");
+            geckoStatusOptionSpinner.setSelection(spinnerPosition);
+        }
+        else if (editGecko.getStatus().contains("Breeder"))
+        {
+            int spinnerPosition = statusAdapter.getPosition("Breeder");
+            geckoStatusOptionSpinner.setSelection(spinnerPosition);
+        }
+        else
+        {
+            int spinnerPosition = statusAdapter.getPosition("Special Needs");
+            geckoStatusOptionSpinner.setSelection(spinnerPosition);
+        }
+
+        // all required data are automatically valid
+        validHumidity = true;
+        validTemperature = true;
+        validName = true;
+        validSpecies = true;
+        validWeight = true;
     }
 
 
@@ -238,38 +315,29 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         {
             case R.id.TextInput_GeckoName:     // Name field changed
                 validateName(geckoName.getText().toString());
-                System.out.println("Name inputted as: " + name );
                 break;
             case R.id.TextInput_GeckoBirthday: // birthday field changed
                 formatBirthday(geckoBirthday.getText().toString());
-                System.out.println("Birthday inputted as: " + birthday );
                 break;
             case R.id.TextInput_GeckoSpecies: // species field changed
                 validateSpecies(geckoSpecies.getText().toString());
-                System.out.println("Species inputted as: " + species );
                 break;
             case R.id.TextInput_GeckoMorph:    // morph field changed
                 validateMorph(geckoMorph.getText().toString());
-                System.out.println("Morph inputted as: " + morph );
                 break;
             case R.id.TextInput_GeckoWeight:   // weight field changed
                 validateWeight(geckoWeight.getText().toString());
-                System.out.println("Weight inputted as: " + weight + "g" );
                 break;
             case R.id.TextInput_Temperature:   // temperature field changed
                 validateTemperature(geckoTemperature.getText().toString());
-                System.out.println("Temperature inputted as: " + temperature + "°F");
                 break;
             case R.id.TextInput_Humidity:      // humidity field changed
                 validateHumidity(geckoHumidity.getText().toString());
-                System.out.println("Humidity inputted as: " + humidity + "%" );
                 break;
             case R.id.TextInput_PurchasedFrom: // seller field changed
                 validateSeller(geckoSeller.getText().toString());
-                System.out.println("Seller inputted as: " + seller );
                 break;
         }
-
         hideKeyboard();
         return false;
     }
@@ -441,7 +509,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateFormat.setLenient(false);
-        System.out.println("Today's date = " + dateFormat.format(cal.getTime())); // testing
 
         // set default color of label
         birthdayLabel.setTextColor(getResources().getColor(R.color.data_input_color));
@@ -532,7 +599,7 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         geckoStatusOptionSpinner = getView().findViewById(R.id.Spinner_GeckoStatusOptions);
 
         // Create an ArrayAdapter using the string array resource and a default spinner layout
-        ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(getContext(),
+        statusAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.GeckoStatusOptions, android.R.layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears
@@ -555,7 +622,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
 
         status = String.valueOf(geckoStatusOptionSpinner.getAdapter().getItem(position));
         validStatus = true;
-        System.out.println("Status selected as: " + status ); // testing
     }
 
     // may need to revisit
@@ -573,9 +639,9 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     public void initializeSexRadioButtons()
     {
         // initialize RadioGroup and all Radio Buttons
-        RadioButton maleSex = getView().findViewById(R.id.RadioButton_Male);
-        RadioButton femaleSex = getView().findViewById(R.id.RadioButton_Female);
-        RadioButton unknownSex = getView().findViewById(R.id.RadioButton_Unknown);
+        maleSex = getView().findViewById(R.id.RadioButton_Male);
+        femaleSex = getView().findViewById(R.id.RadioButton_Female);
+        unknownSex = getView().findViewById(R.id.RadioButton_Unknown);
 
         // listener for male
         maleSex.setOnClickListener(new View.OnClickListener()
@@ -583,7 +649,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
             public void onClick(View maleSexOption)
             {
                 sex = "Male";
-                System.out.println("Sex selected as: " + sex );
             }
         });
 
@@ -593,7 +658,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
             public void onClick(View femaleSexOption)
             {
                 sex = "Female";
-                System.out.println("Sex selected as: " + sex );
             }
         });
 
@@ -603,7 +667,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
             public void onClick(View unknownSexOption)
             {
                 sex = "Unknown";
-                System.out.println("Sex selected as: " + sex );
             }
         });
     }
@@ -617,6 +680,7 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     {
         // initialize photo button
         Button geckoPhoto = getView().findViewById(R.id.Button_Photo);
+        photoDescription = getView().findViewById(R.id.TextView_Photo);
 
         // set onClickListener
         geckoPhoto.setOnClickListener(this);
@@ -626,9 +690,6 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View photoButton)
     {
-        // initialize photo description label
-        photoDescription = getView().findViewById(R.id.TextView_Photo);
-
         getPhotoFromGallery();
     }
 
@@ -638,7 +699,7 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         // create intent to open the gallery
         Intent openGallery = new Intent();
         openGallery.setType("image/*");
-        openGallery.setAction(Intent.ACTION_GET_CONTENT);
+        openGallery.setAction(Intent.ACTION_OPEN_DOCUMENT);
 
         // open the gallery and prompt to select a photo
         startActivityForResult(Intent.createChooser(openGallery, "Select a photo"), 1);
@@ -655,20 +716,13 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
             imageUri = data.getData();
             photo = imageUri.toString();
             System.out.println("Image URI = " + imageUri.toString());
-            photoDescription.setText("Photo Selected");
-        }
+            photoDescription.setText(R.string.photo_selected);
 
-
-        /*
-        try
-        {
-            Bitmap imageBitMap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            {
+                getContext().getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            }
         }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        */
     }
 
 
@@ -689,12 +743,11 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
             {
                 // Must check the required data fields one more time (in case left empty)
                 // data entry form filled out correctly
-                if (validBirthday == true && validName == true && validWeight == true &&
-                    validTemperature == true && validHumidity == true  && validStatus == true &&
-                    validSpecies == true )
+                if (validBirthday && validName && validWeight && validTemperature && validHumidity
+                        && validStatus && validSpecies)
                 {
                     // only calculate age if a birth date exists
-                    if (birthday != "Unknown")
+                    if (!birthday.equals("Unknown"))
                     {
                         calculateAge();
                     }
@@ -703,62 +756,83 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
                     String formattedWeight = String.valueOf(weight) + " grams";
                     String formattedTemp = String.valueOf(temperature) + "°F";
                     String formattedHumidity = String.valueOf(humidity) + "%";
-                    String formattedAge = String.valueOf(age) + " year(s)";
+                    String formattedAge;
+                    if (age == 1)
+                    {
+                        formattedAge = String.valueOf(age) + " year";
+                    }
+                    else
+                    {
+                        formattedAge = String.valueOf(age) + " years";
+                    }
 
-                    // create new gecko and print info
-                    GeckoModel gecko = new GeckoModel(-1, name, sex, birthday, formattedAge,
-                            species, morph, formattedWeight, formattedTemp, formattedHumidity,
-                            status, seller, photo);
-                    System.out.println(gecko.toString()); // for testing
+                    if (adding)
+                    {
+                        // create new gecko and print info
+                        GeckoModel gecko = new GeckoModel(-1, name, sex, birthday, formattedAge,
+                                species, morph, formattedWeight, formattedTemp, formattedHumidity,
+                                status, seller, photo);
 
-                    // add new gecko to database
-                    DatabaseHelper dbHelper = new DatabaseHelper(getContext());
-                    boolean success = dbHelper.addGecko(gecko);
+                        // add new gecko to database
+                        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+                        boolean success = dbHelper.addGecko(gecko);
+                    }
+                    else if (editing)
+                    {
+                        // set new values for gecko
+                        editGecko.setName(name);
+                        editGecko.setGeckoSpecies(species);
+                        editGecko.setMorph(morph);
+                        editGecko.setSex(sex);
+                        editGecko.setBirthday(birthday);
+                        editGecko.setAge(formattedAge);
+                        editGecko.setWeight(formattedWeight);
+                        editGecko.setTemperature(formattedTemp);
+                        editGecko.setHumidity(formattedHumidity);
+                        editGecko.setStatus(status);
+                        editGecko.setSeller(seller);
+                        editGecko.setPhotoID(photo);
 
+                        // edit gecko in database
+                        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+                        dbHelper.editGecko(editGecko);
+                    }
                     Navigation.findNavController(getView()).navigate(R.id.action_fragment_gecko_data_to_gecko_page);
-
                 }
                 // at least one required field is wrong, find the invalid ones
                 else
                 {
-                    if (validName == false)
+                    if (!validName)
                     {
                         nameLabel.setTextColor(Color.RED);
-                        System.out.println("Name is invalid");
                     }
-                    if (validBirthday == false)
+                    if (!validBirthday)
                     {
                         birthdayLabel.setTextColor(Color.RED);
-                        System.out.println("Birthday is invalid");
                     }
-                    if (validSpecies == false)
+                    if (!validSpecies)
                     {
                         speciesLabel.setTextColor(Color.RED);
-                        System.out.println("Species is invalid");
                     }
-                    if (validStatus == false)
+                    if (!validStatus)
                     {
                         statusLabel.setTextColor(Color.RED);
-                        System.out.println("Species is invalid");
                     }
-                    if (validWeight == false)
+                    if (!validWeight)
                     {
                         weightLabel.setTextColor(Color.RED);
-                        System.out.println("Weight is invalid");
                     }
-                    if (validTemperature == false)
+                    if (!validTemperature)
                     {
                         temperatureLabel.setTextColor(Color.RED);
-                        System.out.println("Temperature is invalid");
                     }
-                    if (validHumidity == false)
+                    if (!validHumidity)
                     {
                         humidityLabel.setTextColor(Color.RED);
-                        System.out.println("Humidity is invalid");
                     }
-                    if (validBirthday == true)
+                    if (validBirthday)
                     {
-                        geckoBirthday.setText("Unknown");
+                        geckoBirthday.setText(R.string.unknown);
                     }
                 }
             }
@@ -776,7 +850,14 @@ public class fragment_gecko_data extends Fragment implements View.OnClickListene
         {
             public void onClick(View v)
             {
-                Navigation.findNavController(getView()).navigate(R.id.action_fragment_gecko_data_to_gecko_page);
+                if (adding)  // return to My Gecks page
+                {
+                    Navigation.findNavController(getView()).navigate(R.id.action_fragment_gecko_data_to_gecko_page);
+                }
+                else // return to selected gecko's page
+                {
+                    Navigation.findNavController(getView()).navigate(R.id.action_fragment_gecko_data_to_fragment_selected_gecko);
+                }
             }
         });
     }

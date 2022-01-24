@@ -28,7 +28,11 @@
         android:id="@+id/schedule_page"
         android:name="com.example.gecktrack.ui.notifications.CalendarFragment"
         android:label="Schedule"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_schedule_page_to_fragment_event_data_form"
+            app:destination="@id/fragment_event_data_form" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_gecko_data"
         android:name="com.example.gecktrack.ui.dashboard.fragment_gecko_data"
@@ -37,6 +41,9 @@
         <action
             android:id="@+id/action_fragment_gecko_data_to_gecko_page"
             app:destination="@id/gecko_page" />
+        <action
+            android:id="@+id/action_fragment_gecko_data_to_fragment_selected_gecko"
+            app:destination="@id/fragment_selected_gecko" />
     </fragment>
     <fragment
         android:id="@+id/fragment_selected_gecko"
@@ -46,10 +53,29 @@
         <action
             android:id="@+id/action_fragment_selected_gecko_to_gecko_page"
             app:destination="@id/gecko_page" />
+        <action
+            android:id="@+id/action_fragment_selected_gecko_to_fragment_care_category"
+            app:destination="@id/fragment_care_category" />
+        <action
+            android:id="@+id/action_fragment_selected_gecko_to_fragment_gecko_data"
+            app:destination="@id/fragment_gecko_data" />
     </fragment>
     <fragment
         android:id="@+id/fragment_event_data_form"
         android:name="com.example.gecktrack.ui.notifications.fragment_event_data_form"
         android:label="fragment_event_data_form"
-        tools:layout="@layout/fragment_event_data_form" />
+        tools:layout="@layout/fragment_event_data_form" >
+        <action
+            android:id="@+id/action_fragment_event_data_form_to_schedule_page"
+            app:destination="@id/schedule_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_care_category"
+        android:name="com.example.gecktrack.fragment_care_category"
+        android:label="fragment_care_category"
+        tools:layout="@layout/fragment_care_category" >
+        <action
+            android:id="@+id/action_fragment_care_category_to_fragment_selected_gecko"
+            app:destination="@id/fragment_selected_gecko" />
+    </fragment>
 </navigation>

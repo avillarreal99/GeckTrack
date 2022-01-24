@@ -11,12 +11,12 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/CalendarHeader_ConstraintLayout"
+        android:id="@+id/MyGecksHeader_ConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/TextView_CalendarHeader"
+            android:id="@+id/TextView_MyGecksHeader"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="#B7FF9F"

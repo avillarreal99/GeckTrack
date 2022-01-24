@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -27,22 +30,21 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
+import com.example.gecktrack.ui.dashboard.GeckoModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 // -------------------------------------------------------------------------------------------------
 
-
-/*
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_event_data_form#newInstance} factory method to
- * create an instance of this fragment.
- */
 
 public class fragment_event_data_form extends Fragment implements TextView.OnEditorActionListener, AdapterView.OnItemSelectedListener
 {
@@ -55,7 +57,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     RadioButton PM;
     Switch eventNotifications;
     EditText eventNotes;
-    // FOR GECKOS SECTION
+    ChipGroup geckoChipGroup;
 
     // Text label widgets from xml code
     TextView eventNameLabel;
@@ -63,6 +65,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     TextView eventDateLabel;
     TextView eventTimeLabel;
     TextView eventNotificationsLabel;
+    TextView notificationsStatus;
 
     // variables to hold EventModel Data: *** CREATE EVENTMODEL.JAVA***
     String name;
@@ -72,7 +75,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     String AMPM = "AM";
     String notifications = "OFF";
     String notes = "None";
-    ArrayList<String> forGeckos;
+    ArrayList<GeckoModel> forGeckos;
 
     // for data validation
     boolean validName = false;
@@ -81,40 +84,8 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     boolean validTime = false;
     boolean validGeckoList = false;
 
-    /*
-    // Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    */
-
     // Required empty public constructor
     public fragment_event_data_form() { }
-
-    /*
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_event_data_form.
-     */
-
-    /*
-    // Rename and change types and number of parameters
-    public static fragment_event_data_form newInstance(String param1, String param2) {
-        fragment_event_data_form fragment = new fragment_event_data_form();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    */
 
 
 // CREATION METHODS --------------------------------------------------------------------------------
@@ -124,12 +95,6 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        /*
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        */
     }
 
     @Override
@@ -152,6 +117,9 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         initializeSpinners();
         initializeRadioButtons();
         initializeSwitch();
+        initializeGeckoChips();
+        initializeCancelButton();
+        initializeSaveButton();
     }
 
 
@@ -384,6 +352,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     {
         // initialize Switch
         eventNotifications = getView().findViewById(R.id.Switch_Notifications);
+        notificationsStatus = getView().findViewById(R.id.TextView_Off);
 
         eventNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
                {
@@ -399,9 +368,107 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                             notifications = "OFF";
                         }
 
-                        System.out.println("Notifications are " + notifications);
+                        notificationsStatus.setText(notifications);
                     }
                });
+    }
+
+
+// CHIP BUTTON METHODS -----------------------------------------------------------------------------
+
+
+    // dynamically display chips, one for each gecko in user's database
+    public void initializeGeckoChips()
+    {
+        // intialize chip group, geckos will display in here
+        geckoChipGroup = getView().findViewById(R.id.ChipGroup_GeckoChips);
+        forGeckos = new ArrayList<>();
+
+        // need database connection
+        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+
+        // get a list of all user's geckos
+        List<GeckoModel> geckos = dbHelper.getGeckoList();
+
+        // create a new chip, to select all geckos
+        Chip allGeckosChip = new Chip(getContext());
+        allGeckosChip.setText(R.string.all_geckos);
+        allGeckosChip.setCheckable(true);
+        allGeckosChip.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
+        geckoChipGroup.addView(allGeckosChip);
+
+
+        // for each gecko in List geckos
+        for (GeckoModel gecko: geckos)
+        {
+            // create a new chip, set to gecko's name
+            Chip geckoChip = new Chip(getContext());
+            geckoChip.setText(gecko.getName());
+
+            geckoChip.setCheckable(true);
+
+            geckoChip.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    // determine which chip was selected, add it to ArrayList
+                    if(geckoChip.isChecked() && !forGeckos.contains(gecko))
+                    {
+                        forGeckos.add(gecko);
+                    }
+                    else if (!geckoChip.isChecked())
+                    {
+                        forGeckos.remove(gecko);
+                    }
+
+                    System.out.println(forGeckos.size());
+                }
+            });
+
+            // add new chip to chip group
+            geckoChipGroup.addView(geckoChip);
+        }
+    }
+
+
+// TOOL BUTTON METHODS -----------------------------------------------------------------------------
+
+
+    // initialize and set on click listener for cancel button, go back to calendar
+    public void initializeCancelButton()
+    {
+        Button cancelButton = getView().findViewById(R.id.button_Cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // go back to calendar page
+                Navigation.findNavController(getView()).navigate(R.id.action_fragment_event_data_form_to_schedule_page);
+            }
+        });
+    }
+
+    // initialize and set on click listener for save button
+    public void initializeSaveButton()
+    {
+        Button saveButton = getView().findViewById(R.id.button_Save);
+        saveButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
     }
 
 

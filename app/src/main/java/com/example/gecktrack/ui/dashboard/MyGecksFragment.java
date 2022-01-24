@@ -8,6 +8,7 @@
 
 package com.example.gecktrack.ui.dashboard;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +82,7 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
+        viewModel.setGecko(null);
         // launches new fragment (add a gecko data form)
         Navigation.findNavController(view).navigate(R.id.action_gecko_page_to_fragment_gecko_data);
     }
@@ -121,7 +123,8 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
             }
             else // user added a photo, show the photo
             {
-
+                //Uri image = Uri.parse(gecko.getPhotoID());
+                //geckoPhoto.setImageURI(image);
             }
 
             // Create a text view for each gecko name

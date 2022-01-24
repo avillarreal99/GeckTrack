@@ -13,9 +13,11 @@ import androidx.annotation.Nullable;
 
 import com.example.gecktrack.MainActivity;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity
+{
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         startActivity(new Intent(this, MainActivity.class));

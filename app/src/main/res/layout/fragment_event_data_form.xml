@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CalendarHeader_ConstraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="51dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/TextView_CalendarHeader"
@@ -111,7 +111,7 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/ChipGroup_GeckoChips"
                 android:layout_width="225dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.434"

@@ -152,5 +152,48 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }
     }
 
+    // edit preexisting gecko in database
+    public void editGecko(GeckoModel gecko)
+    {
+        // access database and write query
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // create columns with updated data
+        cv.put("GeckoName", gecko.getName());
+        cv.put("Species", gecko.getGeckoSpecies());
+        cv.put("Sex", gecko.getSex());
+        cv.put("Birthday", gecko.getBirthday());
+        cv.put("Age", gecko.getAge());
+        cv.put("Morph", gecko.getMorph());
+        cv.put("Weight", gecko.getWeight());
+        cv.put("Temperature", gecko.getTemperature());
+        cv.put("Humidity", gecko.getHumidity());
+        cv.put("Status", gecko.getStatus());
+        cv.put("Seller", gecko.getSeller());
+        cv.put("Photo", gecko.getPhotoID());
+
+        // update the correct gecko with the new values
+        db.update("GECKO", cv, "GeckoID = " + gecko.getID(), null);
+        db.close();
+    }
+
+    // update age of gecko
+    public void updateAge(GeckoModel gecko)
+    {
+        // access database and write query
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // create column with updated data
+        cv.put("Age", gecko.getAge());
+
+        // update the correct gecko with the new age
+        db.update("GECKO", cv, "GeckoID = " + gecko.getID(), null);
+        db.close();
+    }
+
+
+// EVENT TABLE METHODS -----------------------------------------------------------------------------
 
 }

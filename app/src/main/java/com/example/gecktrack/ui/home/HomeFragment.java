@@ -6,8 +6,12 @@
 // -------------------------------------------------------------------------------------------------
 
 package com.example.gecktrack.ui.home;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +21,22 @@ import android.widget.ImageView;
 import android.widget.ViewFlipper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
+import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
+import com.example.gecktrack.ui.dashboard.GeckoModel;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -39,12 +56,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         return root;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         // initialize page features
         initializeImageSlider();
         initializeCareTipButtons();
+        updateAge();
     }
 
 
@@ -56,8 +75,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     {
         // Setting up ViewFlipper to hold an array of images from drawables folder
         int images[] = {R.drawable.fatgecko, R.drawable.crestedgecko, R.drawable.daygecko,
-                        R.drawable.leogecko1, R.drawable.knobgecko, R.drawable.leogecko2,
-                        R.drawable.tokaygecko};
+                R.drawable.leogecko1, R.drawable.knobgecko, R.drawable.leogecko2,
+                R.drawable.tokaygecko};
 
         // for each image in images[], pass it to setUpImage
         for (int i = 0; i < images.length; i++)
@@ -91,17 +110,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener
 
 
     // Initializes and listens for selection of one of the Care Tip Buttons
-    private void initializeCareTipButtons( )
+    private void initializeCareTipButtons()
     {
         // initialize and define all 9 buttons
-        Button leopardCareTipsButton     = getView().findViewById(R.id.Button_LeoTips);
-        Button fatTailCareTipsButton     = getView().findViewById(R.id.Button_FatTailTips);
-        Button crestedCareTipsButton     = getView().findViewById(R.id.Button_CrestedTips);
-        Button dayCareTipsButton         = getView().findViewById(R.id.Button_DayTips);
-        Button lechianusCareTipsButton   = getView().findViewById(R.id.Button_LechianusTips);
-        Button tokayCareTipsButton       = getView().findViewById(R.id.Button_TokayTips);
-        Button gargoyleCareTipsButton    = getView().findViewById(R.id.Button_GargoyleTips);
-        Button knobTailCareTipsButton    = getView().findViewById(R.id.Button_KnobTailTips);
+        Button leopardCareTipsButton = getView().findViewById(R.id.Button_LeoTips);
+        Button fatTailCareTipsButton = getView().findViewById(R.id.Button_FatTailTips);
+        Button crestedCareTipsButton = getView().findViewById(R.id.Button_CrestedTips);
+        Button dayCareTipsButton = getView().findViewById(R.id.Button_DayTips);
+        Button lechianusCareTipsButton = getView().findViewById(R.id.Button_LechianusTips);
+        Button tokayCareTipsButton = getView().findViewById(R.id.Button_TokayTips);
+        Button gargoyleCareTipsButton = getView().findViewById(R.id.Button_GargoyleTips);
+        Button knobTailCareTipsButton = getView().findViewById(R.id.Button_KnobTailTips);
         Button chineseCaveCareTipsButton = getView().findViewById(R.id.Button_ChineseCaveTips);
 
         // listen for a Care Tip Button click on all 9 buttons
@@ -156,8 +175,93 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     // Opens browser with selected web page
     private void launchWebLink(String link)
     {
-        // define Intent, start activity (open browser with selected web page)
-        Intent launchLink = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-        startActivity(launchLink);
+        // create alert message to be sure to delete gecko
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("Leave GeckTrack?");
+        alert.setMessage("This button opens a web link to get care tips for the gecko species you selected. " +
+                         "Are you sure you want to leave GeckTrack and open a web link?");
+
+        // Listener for Yes option
+        alert.setPositiveButton("Yes!", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // define Intent, start activity (open browser with selected web page)
+                Intent launchLink = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                startActivity(launchLink);
+
+                // close the dialog
+                dialog.dismiss();
+            }
+        });
+
+        // Listener for no option
+        alert.setNegativeButton("No, go back.", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        // configure alert dialog
+        AlertDialog alertMessage = alert.create();
+        alertMessage.show();
+        alertMessage.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+        alertMessage.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+
+
     }
+
+
+// BIRTHDAY METHODS --------------------------------------------------------------------------------
+
+
+    // update age of geckos whose birthdays have past
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void updateAge()
+    {
+        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+        List<GeckoModel> geckos = dbHelper.getGeckoList();
+
+        // for each gecko in List geckos
+        for (GeckoModel gecko: geckos)
+        {
+            // separate each part of birthday
+            String birthMonth = gecko.getBirthday().substring(0,2);
+            String birthDay = gecko.getBirthday().substring(3,5);
+            String birthYear = gecko.getBirthday().substring(6,10);
+
+            // set birthday and today's date
+            LocalDate today = LocalDate.now();
+            LocalDate birthday = LocalDate.of(Integer.parseInt(birthYear),
+                    Month.of(Integer.parseInt(birthMonth)), Integer.parseInt(birthDay));
+
+            // find age
+            Period timeBetween = Period.between(birthday, today);
+
+            // set age
+            int age = timeBetween.getYears();
+            String formattedAge;
+
+            // format age
+            if (age == 1)
+            {
+                formattedAge = String.valueOf(age) + " year";
+            }
+            else
+            {
+                formattedAge = String.valueOf(age) + " years";
+            }
+
+            // set the age and update gecko
+            gecko.setAge(formattedAge);
+            dbHelper.updateAge(gecko);
+            System.out.println(gecko.getName() + "'s age was updated!");
+        }
+    }
+
+
 }

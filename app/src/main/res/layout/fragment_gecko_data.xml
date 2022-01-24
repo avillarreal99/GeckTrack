@@ -51,7 +51,7 @@
             android:layout_height="79dp">
 
             <TextView
-                android:id="@+id/TextView_EventInstructions1"
+                android:id="@+id/TextView_GeckoInstructions1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/insert_your_gecko_s_information"
@@ -66,7 +66,7 @@
                 app:layout_constraintVertical_bias="0.266" />
 
             <TextView
-                android:id="@+id/TextView_EventInstructions2"
+                android:id="@+id/TextView_GeckoInstructions2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -77,7 +77,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TextView_EventInstructions1"
+                app:layout_constraintTop_toBottomOf="@+id/TextView_GeckoInstructions1"
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
