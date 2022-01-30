@@ -6,7 +6,7 @@
 // -------------------------------------------------------------------------------------------------
 
 
-package com.example.gecktrack.ui.notifications;
+package com.example.gecktrack.ui.calendar;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;

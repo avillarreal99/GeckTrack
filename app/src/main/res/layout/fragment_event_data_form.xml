@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/faded_black"
     android:backgroundTint="@color/faded_black"
-    tools:context=".ui.notifications.fragment_event_data_form"
+    tools:context=".ui.calendar.fragment_event_data_form"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout

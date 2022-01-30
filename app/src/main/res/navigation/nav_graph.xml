@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/schedule_page"
-        android:name="com.example.gecktrack.ui.notifications.CalendarFragment"
+        android:name="com.example.gecktrack.ui.calendar.CalendarFragment"
         android:label="Schedule"
         tools:layout="@layout/fragment_calendar" >
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_event_data_form"
-        android:name="com.example.gecktrack.ui.notifications.fragment_event_data_form"
+        android:name="com.example.gecktrack.ui.calendar.fragment_event_data_form"
         android:label="fragment_event_data_form"
         tools:layout="@layout/fragment_event_data_form" >
         <action
