@@ -1,4 +1,4 @@
-package com.example.gecktrack.ui.dashboard;
+package com.example.gecktrack.ui.mygecks;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

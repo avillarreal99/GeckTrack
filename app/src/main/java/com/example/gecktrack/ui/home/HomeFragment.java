@@ -24,19 +24,15 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
-import com.example.gecktrack.ui.dashboard.GeckoModel;
+import com.example.gecktrack.ui.mygecks.GeckoModel;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 // -------------------------------------------------------------------------------------------------
 

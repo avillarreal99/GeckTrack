@@ -1,7 +1,16 @@
-package com.example.gecktrack.ui.dashboard;
+// Amanda Villarreal
+// January 11, 2022
+// GeckoModel.java
+// GeckTrack.app
+// Class that represents an object of a gecko for the database
+// -------------------------------------------------------------------------------------------------
+
+
+package com.example.gecktrack.ui.mygecks;
 
 public class GeckoModel
 {
+
 
 // PRIVATE INSTANCE VARIABLES ----------------------------------------------------------------------
 
@@ -22,6 +31,7 @@ public class GeckoModel
 
 
 // CONSTRUCTOR -------------------------------------------------------------------------------------
+
 
     // creating a new gecko constructor
     public GeckoModel(int ID, String name, String sex, String birthday, String age,
@@ -53,6 +63,7 @@ public class GeckoModel
         this.morph = morph;
         this.photoID = photoID;
     }
+
 
 // GETTERS AND SETTERS -----------------------------------------------------------------------------
 

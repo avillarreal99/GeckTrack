@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/faded_black"
     android:backgroundTint="@color/faded_black"
-    tools:context=".ui.dashboard.fragment_selected_gecko"
+    tools:context=".ui.mygecks.fragment_selected_gecko"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout

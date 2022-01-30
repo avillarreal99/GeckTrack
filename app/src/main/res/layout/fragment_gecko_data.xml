@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/faded_black"
     android:backgroundTint="@color/faded_black"
-    tools:context=".ui.dashboard.fragment_gecko_data">
+    tools:context=".ui.mygecks.fragment_gecko_data">
 
     <!-- GeckTrack -->
     <!-- fragment_gecko_data.xml -->
@@ -179,7 +179,7 @@
                         android:id="@+id/TextView_Humidity"
                         android:layout_width="75dp"
                         android:layout_height="25dp"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="5dp"
                         android:text="@string/humidity"
                         android:textAlignment="textStart"
                         android:textColor="#B7B7B7"
@@ -194,7 +194,6 @@
                         android:id="@+id/TextInput_Humidity"
                         android:layout_width="35dp"
                         android:layout_height="40dp"
-                        android:layout_marginStart="12dp"
                         android:autofillHints=""
                         android:ems="10"
                         android:hint="@string/_0"

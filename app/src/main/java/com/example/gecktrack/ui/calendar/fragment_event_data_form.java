@@ -6,14 +6,16 @@
 // -------------------------------------------------------------------------------------------------
 
 
-package com.example.gecktrack.ui.notifications;
+package com.example.gecktrack.ui.calendar;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,16 +31,21 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
-import com.example.gecktrack.ui.dashboard.GeckoModel;
+import com.example.gecktrack.ui.SharedViewModel;
+import com.example.gecktrack.ui.mygecks.GeckoModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +55,12 @@ import java.util.List;
 
 public class fragment_event_data_form extends Fragment implements TextView.OnEditorActionListener, AdapterView.OnItemSelectedListener
 {
+    // viewmodel variables
+    SharedViewModel viewModel;
+    EventModel editEvent;
+    private boolean editing;
+    private boolean adding;
+
     // User input widgets from xml code
     EditText eventName;
     Spinner eventTypeSpinner;
@@ -66,6 +79,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     TextView eventTimeLabel;
     TextView eventNotificationsLabel;
     TextView notificationsStatus;
+    TextView eventForGeckosLabel;
 
     // variables to hold EventModel Data: *** CREATE EVENTMODEL.JAVA***
     String name;
@@ -76,6 +90,8 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     String notifications = "OFF";
     String notes = "None";
     ArrayList<GeckoModel> forGeckos;
+    StringBuilder geckoIDs = new StringBuilder();
+    String finalGeckoList;
 
     // for data validation
     boolean validName = false;
@@ -83,6 +99,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     boolean validDate = false;
     boolean validTime = false;
     boolean validGeckoList = false;
+    boolean validNotifications = false;
 
     // Required empty public constructor
     public fragment_event_data_form() { }
@@ -100,6 +117,9 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        // initialize view model
+        viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event_data_form, container, false);
     }
@@ -120,6 +140,38 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         initializeGeckoChips();
         initializeCancelButton();
         initializeSaveButton();
+
+        // check if editing an event or adding
+        editingOrAdding();
+    }
+
+
+// EDITING GECKO METHODS ---------------------------------------------------------------------------
+
+
+    // check if user is editing or adding an event
+    public void editingOrAdding()
+    {
+        // initialize instruction label
+        TextView instructions = getView().findViewById(R.id.TextView_EventInstructions1);
+
+        // user is adding a new event
+        if (viewModel.getEvent().getValue() == null)
+        {
+            adding = true;
+            editing = false;
+            instructions.setText(R.string.insert_event_information);
+        }
+        else // user is editing existing event
+        {
+            adding = false;
+            editing = true;
+            // editGecko = viewModel.getGecko().getValue();
+            //String instructionsString = "Edit " + editGecko.getName() + "'s information!";
+            //instructions.setText(instructionsString);
+            //preloadGeckoData();
+            System.out.println("Editing a preexisting event!");
+        }
     }
 
 
@@ -135,6 +187,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         eventDateLabel          = getView().findViewById(R.id.TextView_EventDate);
         eventTimeLabel          = getView().findViewById(R.id.TextView_EventTime);
         eventNotificationsLabel = getView().findViewById(R.id.TextView_Notifications);
+        eventForGeckosLabel     = getView().findViewById(R.id.TextView_ForGecko);
     }
 
     // initialize all EditText fields and set listeners
@@ -172,10 +225,91 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                 validateNotes(eventNotes.getText().toString());
                 System.out.println("Event Notes inputted as: " + notes);
                 break;
+            case R.id.TextInput_EventDate: // Date field changed
+                validateDate(eventDate.getText().toString());
+                System.out.println("Event Date inputted as: " + date);
+                break;
         }
 
         hideKeyboard();
         return false;
+    }
+
+    // format the user inputted birth date
+    public void validateDate(String inputtedDate)
+    {
+        // create the correct  date format
+        String format = "(\\d{2})(/)(\\d{2})(/)(\\d{4})";
+
+        // set up today's date
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(false);
+
+        // set default color of label
+        eventDateLabel.setTextColor(getResources().getColor(R.color.data_input_color));
+
+        // user did not input date
+        if(inputtedDate.isEmpty() || inputtedDate == null)
+        {
+            date = "Unknown";
+            validDate = false;
+            eventDateLabel.setTextColor(Color.RED);
+            //eventDate.setText(R.string.mm_dd_yyyy);
+            Toast.makeText(getContext(), "You must input a date!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        // user inputted correctly formatted date
+        else if (inputtedDate.matches(format))
+        {
+            // is the birthday greater than today's date?
+            try
+            {
+                // compare dates
+                Date today = dateFormat.parse(dateFormat.format(cal.getTime()));
+                Date userDate = dateFormat.parse(inputtedDate);
+
+                // date happened before today
+                // cannot have notifications for a past event
+                if (userDate.before(today))
+                {
+                    date = inputtedDate;
+                    validDate = true;
+                    eventNotifications.setClickable(false);
+                    eventNotifications.setChecked(false);
+                    notifications = "OFF";
+                    notificationsStatus.setText(R.string.disabled);
+                }
+                // date exceeds today
+                // notifications are allowed
+                else
+                {
+                    date = inputtedDate;
+                    validDate = true;
+                    eventDateLabel.setTextColor(getResources().getColor(R.color.data_input_color));
+                    eventNotifications.setClickable(true);
+                    eventNotifications.setChecked(false);
+                    notificationsStatus.setText(R.string.off);
+                }
+            }
+            // date does not exist
+            catch(ParseException ex)
+            {
+                ex.printStackTrace();
+                validDate = false;
+                eventDateLabel.setTextColor(Color.RED);
+                Toast.makeText(getContext(), "Entered date does not exist!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        // user tried to input date, but wrong format
+        else
+        {
+            validDate = false;
+            eventDateLabel.setTextColor(Color.RED);
+            Toast.makeText(getContext(), "Date must be in mm/dd/yyyy format!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     // ensure a name is inputted
@@ -210,13 +344,15 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         // create the correct time format
         String format1 = "(\\d{2})(:)(\\d{2})"; // hh:mm
         String format2 = "(\\d)(:)(\\d{2})"; // h:mm
-        String formattedTime;
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm");
+        String formattedTime = "";
 
         // user did not input time
         if(inputtedTime.isEmpty() || inputtedTime == null)
         {
             eventTimeLabel.setTextColor(Color.RED);
-            System.out.println("Must input a time!");
+            Toast.makeText(getContext(), "You must input a time!",
+                    Toast.LENGTH_LONG).show();
             time = "00:00";
             validTime = false;
             eventTime.setText(time);
@@ -229,26 +365,42 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
             {
                 formattedTime = "0" + inputtedTime;
                 System.out.println("Time was reformatted into " + formattedTime);
+                eventTime.setText(formattedTime);
+            }
+            else
+            {
+                formattedTime = inputtedTime;
             }
 
-            // time should now match format1
-            if(inputtedTime.matches(format1))
+            int minutes = Integer.parseInt(formattedTime.substring( 3, 5));
+            int hours   = Integer.parseInt(formattedTime.substring( 0, 2));
+            System.out.println("hours = " + hours);
+            System.out.println("minutes = " + minutes);
+
+            if ((minutes < 59) && (hours >= 1 && hours <= 12))
             {
-                // check if time is valid (exists, military time?)
+                time = formattedTime;
+                validTime = true;
+                eventTime.setText(time);
+            }
+            else
+            {
+                eventTimeLabel.setTextColor(Color.RED);
+                validTime = false;
+                Toast.makeText(getContext(), "Inputted time does not exist",
+                        Toast.LENGTH_LONG).show();
+                time = "0:00";
             }
         }
         // user tried to input time, but wrong format
         else
         {
             eventTimeLabel.setTextColor(Color.RED);
-            System.out.println("Time must be in hh:mm format!");
+            Toast.makeText(getContext(), "Time must be in hh:mm format!",
+                    Toast.LENGTH_LONG).show();
             validTime = false;
+            time = "00:00";
         }
-
-        // format the date
-        Date dt = new Date(inputtedTime);
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-        String formattedDate = sdf.format(dt);
     }
 
     // validate inputted notes
@@ -380,7 +532,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     // dynamically display chips, one for each gecko in user's database
     public void initializeGeckoChips()
     {
-        // intialize chip group, geckos will display in here
+        // initialize chip group, geckos will display in here
         geckoChipGroup = getView().findViewById(R.id.ChipGroup_GeckoChips);
         forGeckos = new ArrayList<>();
 
@@ -389,21 +541,6 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
 
         // get a list of all user's geckos
         List<GeckoModel> geckos = dbHelper.getGeckoList();
-
-        // create a new chip, to select all geckos
-        Chip allGeckosChip = new Chip(getContext());
-        allGeckosChip.setText(R.string.all_geckos);
-        allGeckosChip.setCheckable(true);
-        allGeckosChip.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-            }
-        });
-        geckoChipGroup.addView(allGeckosChip);
-
 
         // for each gecko in List geckos
         for (GeckoModel gecko: geckos)
@@ -419,6 +556,9 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                 @Override
                 public void onClick(View v)
                 {
+                    // set default color of label
+                    eventForGeckosLabel.setTextColor(getResources().getColor(R.color.data_input_color));
+
                     // determine which chip was selected, add it to ArrayList
                     if(geckoChip.isChecked() && !forGeckos.contains(gecko))
                     {
@@ -430,11 +570,45 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                     }
 
                     System.out.println(forGeckos.size());
+                    if(forGeckos.size() == 0)
+                    {
+                        Toast.makeText(getContext(), "You must select which gecko(s) this event is for!",
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
             // add new chip to chip group
             geckoChipGroup.addView(geckoChip);
+        }
+    }
+
+    // turn arrayList of selected geckos into a string of ID's
+    public void finalizeGeckos()
+    {
+        // no geckos were selected from chips, error
+        if(forGeckos.isEmpty())
+        {
+            validGeckoList = false;
+            eventForGeckosLabel.setTextColor(getResources().getColor(R.color.error_on_data_color));
+        }
+        // geckos were selected, format the selection
+        else
+        {
+            validGeckoList = true;
+            eventForGeckosLabel.setTextColor(getResources().getColor(R.color.data_input_color));
+
+            // "clear" the StringBuilder
+            geckoIDs.setLength(0);
+
+            // add each ID to the String
+            for (GeckoModel gecko : forGeckos) {
+                geckoIDs.append(gecko.getID() + " ");
+            }
+
+            // trim excess white space
+            geckoIDs.trimToSize();
+            finalGeckoList = geckoIDs.toString();
         }
     }
 
@@ -467,6 +641,57 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
             public void onClick(View v)
             {
 
+                finalizeGeckos();
+
+                // format final time
+                String formattedTime = time + AMPM;
+
+                // Must check the required data fields one more time (in case left empty)
+                // data entry form filled out correctly
+                if (validName && validType && validDate && validTime &&  validGeckoList)
+                {
+                    if (editing)
+                    {
+
+                    }
+                    else if (adding)
+                    {
+                        // create new event
+                        EventModel newEvent = new EventModel(-1, name, type, date, formattedTime,
+                                                             notifications, notes, finalGeckoList);
+
+                        // add new gecko to database
+                        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+                        boolean success = dbHelper.addEvent(newEvent);
+                    }
+                }
+                // at least one required field is wrong, find the invalid ones
+                else
+                {
+                    Toast.makeText(getContext(), "Please correct the red data fields!",
+                            Toast.LENGTH_SHORT).show();
+
+                    if (!validName)
+                    {
+                        eventNameLabel.setTextColor(Color.RED);
+                    }
+                    if (!validType)
+                    {
+                        eventTypeLabel.setTextColor(Color.RED);
+                    }
+                    if (!validDate)
+                    {
+                        eventDateLabel.setTextColor(Color.RED);
+                    }
+                    if (!validTime)
+                    {
+                        eventTimeLabel.setTextColor(Color.RED);
+                    }
+                    if (!validGeckoList)
+                    {
+                        eventForGeckosLabel.setTextColor(Color.RED);
+                    }
+                }
             }
         });
     }

@@ -6,7 +6,7 @@
 // ------------------------------------------------------------------------------------------------
 
 
-package com.example.gecktrack.ui.dashboard;
+package com.example.gecktrack.ui.mygecks;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -123,7 +123,8 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
             }
             else // user added a photo, show the photo
             {
-                //Uri image = Uri.parse(gecko.getPhotoID());
+                System.out.println(gecko.getName() + "'s image URI: " + gecko.getPhotoID());
+                Uri image = Uri.parse(gecko.getPhotoID());
                 //geckoPhoto.setImageURI(image);
             }
 

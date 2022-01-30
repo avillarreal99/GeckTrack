@@ -13,7 +13,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
-import com.example.gecktrack.ui.dashboard.GeckoModel;
+
+import com.example.gecktrack.ui.calendar.EventModel;
+import com.example.gecktrack.ui.mygecks.GeckoModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     // constructor
     public DatabaseHelper(@Nullable Context context)
     {
-        super(context, "GeckTrack Database", null, 1);
+        super(context, "GeckTrack Database", null, 3);
     }
 
     // called the first time the database is accessed (code to generate new table)
@@ -37,17 +39,21 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         String createTableStatement = "CREATE TABLE GECKO (GeckoID INTEGER PRIMARY KEY AUTOINCREMENT, GeckoName TEXT, Species TEXT, Sex TEXT, Birthday TEXT, Age TEXT, Morph TEXT, Weight TEXT, Temperature TEXT, Humidity TEXT, Status TEXT, Seller TEXT, Photo TEXT)";
         db.execSQL(createTableStatement);
+
     }
 
     // called if the version number of the database changes
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        String createEventTable     = "CREATE TABLE EVENT (EventID INTEGER PRIMARY KEY AUTOINCREMENT, EventName TEXT, Type TEXT, Date TEXT, Time TEXT, Notifications TEXT, Notes TEXT, Geckos TEXT)";
+        db.execSQL(createEventTable);
 
     }
 
 
 // GECKO TABLE METHODS -----------------------------------------------------------------------------
+
 
     // add a new gecko to the database
     public boolean addGecko(GeckoModel newGecko)
@@ -195,5 +201,55 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
 
 // EVENT TABLE METHODS -----------------------------------------------------------------------------
+
+
+    // add a new event to the database
+    public boolean addEvent(EventModel newEvent)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // create columns and insert data
+        cv.put("EventName", newEvent.getName());
+        cv.put("Type", newEvent.getType());
+        cv.put("Date", newEvent.getDate());
+        cv.put("Time", newEvent.getTime());
+        cv.put("Notifications", newEvent.getNotifications());
+        cv.put("Notes", newEvent.getNotes());
+        cv.put("Geckos", newEvent.getGeckos());
+
+        // add this new record to GECKO table, no null columns allowed
+        long insert = db.insert("EVENT", null, cv);
+
+        if (insert == -1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    // remove event from database
+    public boolean deleteEvent(EventModel event)
+    {
+        // access database and write query
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteEventQuery = "DELETE FROM EVENT " +
+                                  "WHERE EventID = " + event.getID();
+
+        Cursor cursor = db.rawQuery(deleteEventQuery, null);
+
+        // return true if event found, should always be true
+        if(cursor.moveToFirst())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }

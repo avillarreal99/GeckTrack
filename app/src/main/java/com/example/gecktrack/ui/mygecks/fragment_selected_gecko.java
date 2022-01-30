@@ -6,7 +6,7 @@
 // -------------------------------------------------------------------------------------------------
 
 
-package com.example.gecktrack.ui.dashboard;
+package com.example.gecktrack.ui.mygecks;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;

@@ -6,7 +6,7 @@
 // -------------------------------------------------------------------------------------------------
 
 
-package com.example.gecktrack;
+package com.example.gecktrack.ui.mygecks;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,8 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.gecktrack.R;
 import com.example.gecktrack.ui.SharedViewModel;
-import com.example.gecktrack.ui.dashboard.GeckoModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

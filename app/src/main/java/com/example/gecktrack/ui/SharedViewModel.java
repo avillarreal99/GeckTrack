@@ -9,12 +9,14 @@ package com.example.gecktrack.ui;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.gecktrack.ui.dashboard.GeckoModel;
+import com.example.gecktrack.ui.mygecks.GeckoModel;
+import com.example.gecktrack.ui.calendar.EventModel;
 
 public class SharedViewModel extends ViewModel
 {
     private MutableLiveData<GeckoModel> gecko = new MutableLiveData<>(); // gecko
     private MutableLiveData<String> eventType = new MutableLiveData<>(); // event type
+    private MutableLiveData<EventModel> event = new MutableLiveData<>(); // event
 
 
 // GECKO METHODS -----------------------------------------------------------------------------------
@@ -47,5 +49,23 @@ public class SharedViewModel extends ViewModel
     {
         return eventType;
     }
+
+
+
+// EVENT METHODS -----------------------------------------------------------------------------------
+
+
+    // set the stored event to be the selected event
+    public void setEvent(EventModel selectedEvent)
+    {
+        event.setValue(selectedEvent);
+    }
+
+    // send the stored event data back
+    public LiveData<EventModel> getEvent()
+    {
+        return event;
+    }
+
 
 }

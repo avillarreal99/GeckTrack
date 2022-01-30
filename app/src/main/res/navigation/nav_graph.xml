@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/gecko_page"
-        android:name="com.example.gecktrack.ui.dashboard.MyGecksFragment"
+        android:name="com.example.gecktrack.ui.mygecks.MyGecksFragment"
         android:label="My Gecks"
         tools:layout="@layout/fragment_my_gecks" >
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/schedule_page"
-        android:name="com.example.gecktrack.ui.notifications.CalendarFragment"
+        android:name="com.example.gecktrack.ui.calendar.CalendarFragment"
         android:label="Schedule"
         tools:layout="@layout/fragment_calendar" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_gecko_data"
-        android:name="com.example.gecktrack.ui.dashboard.fragment_gecko_data"
+        android:name="com.example.gecktrack.ui.mygecks.fragment_gecko_data"
         android:label="fragment_gecko_data"
         tools:layout="@layout/fragment_gecko_data" >
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_selected_gecko"
-        android:name="com.example.gecktrack.ui.dashboard.fragment_selected_gecko"
+        android:name="com.example.gecktrack.ui.mygecks.fragment_selected_gecko"
         android:label="fragment_selected_gecko"
         tools:layout="@layout/fragment_selected_gecko" >
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_event_data_form"
-        android:name="com.example.gecktrack.ui.notifications.fragment_event_data_form"
+        android:name="com.example.gecktrack.ui.calendar.fragment_event_data_form"
         android:label="fragment_event_data_form"
         tools:layout="@layout/fragment_event_data_form" >
         <action
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_care_category"
-        android:name="com.example.gecktrack.fragment_care_category"
+        android:name="com.example.gecktrack.ui.mygecks.fragment_care_category"
         android:label="fragment_care_category"
         tools:layout="@layout/fragment_care_category" >
         <action

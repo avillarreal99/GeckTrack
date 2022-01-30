@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/faded_black"
     android:backgroundTint="@color/faded_black"
-    tools:context=".ui.notifications.fragment_event_data_form"
+    tools:context=".ui.calendar.fragment_event_data_form"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -186,8 +186,10 @@
 
                 <TextView
                     android:id="@+id/TextView_Off"
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/off"
                     android:textColor="@color/data_input_color"
                     android:textSize="18sp"

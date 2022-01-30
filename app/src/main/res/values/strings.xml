@@ -79,6 +79,7 @@
     <string name="no_photo">No photo</string>
     <string name="unknown">Unknown</string>
     <string name="all_geckos">All geckos</string>
+    <string name="disabled">Disabled</string>
     <string-array name="GeckoSpeciesOptions">
         <item>Leopard</item>
         <item>African Fat-Tailed</item>

@@ -8,17 +8,13 @@
 
 package com.example.gecktrack;
 import android.os.Bundle;
-import android.view.MenuItem;
-import com.example.gecktrack.ui.dashboard.MyGecksFragment;
+
 import com.example.gecktrack.ui.home.HomeFragment;
-import com.example.gecktrack.ui.notifications.CalendarFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 //-------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/faded_black"
     android:orientation="vertical"
-    tools:context=".ui.notifications.CalendarFragment" >
+    tools:context=".ui.calendar.CalendarFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CalendarHeader_ConstraintLayout"

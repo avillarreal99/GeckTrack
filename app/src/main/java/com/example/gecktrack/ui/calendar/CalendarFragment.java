@@ -5,7 +5,7 @@
 // Use this class to program functionality of Calendar Page
 // ------------------------------------------------------------------------------------------------
 
-package com.example.gecktrack.ui.notifications;
+package com.example.gecktrack.ui.calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.gecktrack.R;
+import com.example.gecktrack.ui.SharedViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 // ------------------------------------------------------------------------------------------------
@@ -26,6 +28,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class CalendarFragment extends Fragment
 {
 
+    // variables for SharedViewModel
+    private SharedViewModel viewModel;
     private CalendarViewModel notificationsViewModel;
 
 
@@ -36,6 +40,7 @@ public class CalendarFragment extends Fragment
     {
         notificationsViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
         View root = inflater.inflate(R.layout.fragment_calendar, container, false);
+        viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
 
         return root;
     }
@@ -64,6 +69,9 @@ public class CalendarFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                // event will always be null from add button
+                viewModel.setEvent(null);
+
                 // open event data form to add an event
                 Navigation.findNavController(getView()).navigate(R.id.action_schedule_page_to_fragment_event_data_form);
             }
