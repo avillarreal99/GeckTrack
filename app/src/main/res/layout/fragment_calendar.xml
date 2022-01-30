@@ -54,6 +54,19 @@
         android:layout_width="match_parent"
         android:layout_height="475dp">
 
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="398dp"
+            android:layout_height="453dp"
+            android:dateTextAppearance="@style/CalendarViewCustomText"
+            android:theme="@style/CalendarViewTheme"
+            android:weekDayTextAppearance="@style/CalendarViewCustomText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

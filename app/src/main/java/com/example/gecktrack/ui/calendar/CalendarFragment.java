@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.gecktrack.R;
+import com.example.gecktrack.ui.calendar.CalendarViewModel;
 import com.example.gecktrack.ui.SharedViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,6 +30,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class CalendarFragment extends Fragment
 {
 
+    private CalendarViewModel calendarViewModel;
+    private CalendarView calendarView;
     // variables for SharedViewModel
     private SharedViewModel viewModel;
     private CalendarViewModel notificationsViewModel;
@@ -38,9 +42,24 @@ public class CalendarFragment extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        notificationsViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
+
+        calendarViewModel =
+                new ViewModelProvider(this).get(CalendarViewModel.class);
         View root = inflater.inflate(R.layout.fragment_calendar, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
+        calendarView  = root.findViewById(R.id.calendarView); //connecting to calendar
+
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+            //month starts at 0, increment by 1 when using month
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+            }
+        });
+
+
 
         return root;
     }
