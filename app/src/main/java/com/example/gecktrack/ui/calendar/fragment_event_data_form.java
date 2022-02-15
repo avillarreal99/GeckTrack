@@ -158,6 +158,14 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         // user is adding a new event
         if (viewModel.getEvent().getValue() == null)
         {
+            // user came from a selected day
+            if(viewModel.getDate() != null)
+            {
+                date = viewModel.getDate().getValue();
+                eventDate.setText(date);
+                validDate = true;
+            }
+
             adding = true;
             editing = false;
             instructions.setText(R.string.insert_event_information);
@@ -215,19 +223,15 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         {
             case R.id.TextInput_EventName: // Name field changed
                 validateName(eventName.getText().toString());
-                System.out.println("Event name inputted as: " + name );
                 break;
             case R.id.TextInput_EventTime: // Time field changed
                 validateTime(eventTime.getText().toString());
-                System.out.println("Event time inputted as: " + time + AMPM);
                 break;
             case R.id.TextInput_EventNotes: // Notes field changed
                 validateNotes(eventNotes.getText().toString());
-                System.out.println("Event Notes inputted as: " + notes);
                 break;
             case R.id.TextInput_EventDate: // Date field changed
                 validateDate(eventDate.getText().toString());
-                System.out.println("Event Date inputted as: " + date);
                 break;
         }
 
@@ -453,7 +457,6 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
 
         type = String.valueOf(eventTypeSpinner.getAdapter().getItem(position));
         validType = true;
-        System.out.println("Type selected as: " + type ); // testing
     }
 
     // may need to revisit
@@ -625,8 +628,17 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
             @Override
             public void onClick(View v)
             {
+                // if came from selected day, return to selected day
+                if (viewModel.getDate().getValue() != null)
+                {
+                    // go back to selected day
+                    Navigation.findNavController(getView()).navigate(R.id.action_fragment_event_data_form_to_fragment_selected_day);
+                }
                 // go back to calendar page
-                Navigation.findNavController(getView()).navigate(R.id.action_fragment_event_data_form_to_schedule_page);
+                else
+                {
+                    Navigation.findNavController(getView()).navigate(R.id.action_fragment_event_data_form_to_schedule_page);
+                }
             }
         });
     }
@@ -644,7 +656,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                 finalizeGeckos();
 
                 // format final time
-                String formattedTime = time + AMPM;
+                String formattedTime = time + " " + AMPM;
 
                 // Must check the required data fields one more time (in case left empty)
                 // data entry form filled out correctly
@@ -663,6 +675,18 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                         // add new gecko to database
                         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
                         boolean success = dbHelper.addEvent(newEvent);
+
+                        // if came from selected day, return to selected day
+                        if (viewModel.getDate().getValue() != null)
+                        {
+                            // go back to selected day
+                            Navigation.findNavController(getView()).navigate(R.id.action_fragment_event_data_form_to_fragment_selected_day);
+                        }
+                        // go back to calendar page
+                        else
+                        {
+                            Navigation.findNavController(getView()).navigate(R.id.action_fragment_event_data_form_to_schedule_page);
+                        }
                     }
                 }
                 // at least one required field is wrong, find the invalid ones

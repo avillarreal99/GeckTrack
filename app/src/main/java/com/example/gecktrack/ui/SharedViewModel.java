@@ -17,6 +17,7 @@ public class SharedViewModel extends ViewModel
     private MutableLiveData<GeckoModel> gecko = new MutableLiveData<>(); // gecko
     private MutableLiveData<String> eventType = new MutableLiveData<>(); // event type
     private MutableLiveData<EventModel> event = new MutableLiveData<>(); // event
+    private MutableLiveData<String>     date  = new MutableLiveData<>(); // selected calendar day
 
 
 // GECKO METHODS -----------------------------------------------------------------------------------
@@ -67,5 +68,20 @@ public class SharedViewModel extends ViewModel
         return event;
     }
 
+
+// SELECTED DAY METHODS ----------------------------------------------------------------------------
+
+
+    // set the stored day to be the selected day
+    public void setDate(String selectedDay)
+    {
+        date.setValue(selectedDay);
+    }
+
+    // send the stored day data back
+    public LiveData<String> getDate()
+    {
+        return date;
+    }
 
 }

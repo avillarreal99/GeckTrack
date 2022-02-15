@@ -16,8 +16,11 @@ import androidx.annotation.Nullable;
 
 import com.example.gecktrack.ui.calendar.EventModel;
 import com.example.gecktrack.ui.mygecks.GeckoModel;
+
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 // -------------------------------------------------------------------------------------------------
@@ -140,6 +143,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
     // remove gecko from database
     public boolean deleteGecko(GeckoModel gecko)
     {
+        // remove geckoID from events it appears in FIRST
+        removeGeckoFromEvents(gecko.getID());
+
         // access database and write query
         SQLiteDatabase db = this.getWritableDatabase();
         String deleteGeckoQuery = "DELETE FROM GECKO " +
@@ -252,4 +258,228 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }
     }
 
+    // get ALL of the users inputted events
+    public List<EventModel> getTotalEventList()
+    {
+        List<EventModel> returnList = new ArrayList<>();
+
+        String getEventsQuery = "SELECT * FROM EVENT";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // cursor is result set from query
+        Cursor cursor = db.rawQuery(getEventsQuery, null);
+
+        if(cursor.moveToFirst())
+        {
+            // loop through cursor set, get relevant data
+            do
+            {
+                int    ID             = cursor.getInt(0);
+                String name           = cursor.getString(1);
+                String type           = cursor.getString(2);
+                String date           = cursor.getString(3);
+                String time           = cursor.getString(4);
+                String notifications  = cursor.getString(5);
+                String notes          = cursor.getString(6);
+                String geckos         = cursor.getString(7);
+
+                // create new event, add to returnList
+                EventModel listEvent = new EventModel(ID, name, type, date, time, notifications,
+                                                      notes, geckos);
+                returnList.add(listEvent);
+
+            } while(cursor.moveToNext());
+        }
+        else
+        {
+            // failed, do not add to list
+        }
+
+        // close cursor and db
+        cursor.close();
+        db.close();
+
+        return returnList;
+    }
+
+    // get the users inputted events for the selected day
+    public List<EventModel> getSelectedDayEventList(String selectedDay)
+    {
+        List<EventModel> returnList = new ArrayList<>();
+
+        String getEventsQuery = "SELECT * FROM EVENT WHERE Date = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // cursor is result set from query
+        Cursor cursor = db.rawQuery(getEventsQuery, new String[] {selectedDay});
+
+        if(cursor.moveToFirst())
+        {
+            // loop through cursor set, get relevant data
+            do
+            {
+                int    ID             = cursor.getInt(0);
+                String name           = cursor.getString(1);
+                String type           = cursor.getString(2);
+                String date           = cursor.getString(3);
+                String time           = cursor.getString(4);
+                String notifications  = cursor.getString(5);
+                String notes          = cursor.getString(6);
+                String geckos         = cursor.getString(7);
+
+                // create new event, add to returnList
+                EventModel listEvent = new EventModel(ID, name, type, date, time, notifications,
+                        notes, geckos);
+                returnList.add(listEvent);
+
+            } while(cursor.moveToNext());
+        }
+        else
+        {
+            // failed, list is probably empty
+        }
+
+        // close cursor and db
+        cursor.close();
+        db.close();
+
+        return returnList;
+    }
+
+    // get a String of gecko names that match the ID
+    public String getAssociatedGeckos(String IDs)
+    {
+        // use scanner to get each individual ID from string
+        Scanner separator = new Scanner(IDs).useDelimiter(" ");
+        StringBuilder nameList = new StringBuilder();
+
+        // loop through separated strings
+        while (separator.hasNext())
+        {
+            String geckoID = String.valueOf(separator.next());
+            String geckoName = getGeckoNameByID(geckoID);
+
+            // on the last item
+            if (!separator.hasNext())
+            {
+                nameList.append(geckoName);
+            }
+            else
+            {
+                nameList.append(geckoName + ", ");
+            }
+        }
+
+        nameList.trimToSize();
+
+        return nameList.toString();
+    }
+
+    // find the ONE gecko that matches the given ID
+    public String getGeckoNameByID(String geckoID)
+    {
+        String getEventsQuery = "SELECT * FROM GECKO WHERE GeckoID = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String geckoName = "";
+
+        // cursor is result set from query
+        Cursor cursor = db.rawQuery(getEventsQuery, new String[] {geckoID});
+
+        // SHOULD ONLY RETURN ONE GECKO THAT MATCHED ID
+        if(cursor.moveToFirst())
+        {
+            // loop through cursor set, get gecko match
+            do
+            {
+                int    ID           = cursor.getInt(0);
+                String name         = cursor.getString(1);
+                String species      = cursor.getString(2);
+                String sex          = cursor.getString(3);
+                String birthday     = cursor.getString(4);
+                String age          = cursor.getString(5);
+                String morph        = cursor.getString(6);
+                String weight       = cursor.getString(7);
+                String temperature  = cursor.getString(8);
+                String humidity     = cursor.getString(9);
+                String status       = cursor.getString(10);
+                String seller       = cursor.getString(11);
+                String photo        = cursor.getString(12);
+
+                // create new gecko, add to name
+                GeckoModel listGecko = new GeckoModel(ID, name, sex, birthday, age, species, morph,
+                        weight, temperature, humidity, status, seller, photo);
+
+                geckoName = listGecko.getName();
+
+            } while(cursor.moveToNext());
+        }
+        else
+        {
+            // failed, list is probably empty
+        }
+
+        // close cursor and db
+        cursor.close();
+        db.close();
+
+        return geckoName;
+    }
+
+    // when gecko is deleted, remove it from all events it appears in
+    public void removeGeckoFromEvents(int ID)
+    {
+        // get all existing events
+        List<EventModel> events = getTotalEventList();
+
+        // look at each events gecko list
+        for (EventModel event : events)
+        {
+            // use scanner to get each individual ID from string
+            Scanner separator = new Scanner(event.getGeckos()).useDelimiter(" ");
+
+            // new gecko ID list will build in here (all IDs EXCEPT the deleted gecko)
+            StringBuilder geckoIDs = new StringBuilder();
+
+            // loop through separated IDs
+            while (separator.hasNext())
+            {
+                String geckoID = String.valueOf(separator.next());
+
+                // compare current ID to search ID
+                // ID not found, keep it in String
+                if (!geckoID.contains(String.valueOf(ID)))
+                {
+                    geckoIDs.append(geckoID + " ");
+                }
+                // means gecko ID was found, skip it (don't add to String)
+                else
+                {
+                    System.out.println("GeckoID #" + geckoID + " removed from event " + event.getName());
+                }
+
+                // if gecko ID list comes out empty, delete event
+                if(geckoIDs.toString().isEmpty())
+                {
+                    deleteEvent(event);
+                    System.out.println("Deleted Event " + event.getName());
+                }
+                // else, event still has geckos, update them
+                else
+                {
+                    // access database and write query
+                    SQLiteDatabase db = this.getWritableDatabase();
+                    ContentValues cv = new ContentValues();
+
+                    // prepare data
+                    geckoIDs.trimToSize();
+                    cv.put("Geckos", geckoIDs.toString());
+
+                    // update geckoID list for current event
+                    db.update("EVENT", cv, "EventID = " + event.getID(), null);
+                    db.close();
+                }
+            }
+
+        }
+    }
 }

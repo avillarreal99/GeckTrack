@@ -94,7 +94,6 @@ public class fragment_selected_gecko extends Fragment implements View.OnClickLis
     public void initializeSelectedGecko()
     {
         selectedGecko = viewModel.getGecko().getValue();
-        System.out.println("A gecko was loaded: \n" + selectedGecko);
     }
 
 

@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_schedule_page_to_fragment_event_data_form"
             app:destination="@id/fragment_event_data_form" />
+        <action
+            android:id="@+id/action_schedule_page_to_fragment_selected_day"
+            app:destination="@id/fragment_selected_day" />
     </fragment>
     <fragment
         android:id="@+id/fragment_gecko_data"
@@ -68,6 +71,9 @@
         <action
             android:id="@+id/action_fragment_event_data_form_to_schedule_page"
             app:destination="@id/schedule_page" />
+        <action
+            android:id="@+id/action_fragment_event_data_form_to_fragment_selected_day"
+            app:destination="@id/fragment_selected_day" />
     </fragment>
     <fragment
         android:id="@+id/fragment_care_category"
@@ -77,5 +83,17 @@
         <action
             android:id="@+id/action_fragment_care_category_to_fragment_selected_gecko"
             app:destination="@id/fragment_selected_gecko" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_selected_day"
+        android:name="com.example.gecktrack.ui.calendar.fragment_selected_day"
+        android:label="fragment_selected_day"
+        tools:layout="@layout/fragment_selected_day" >
+        <action
+            android:id="@+id/action_fragment_selected_day_to_schedule_page"
+            app:destination="@id/schedule_page" />
+        <action
+            android:id="@+id/action_fragment_selected_day_to_fragment_event_data_form"
+            app:destination="@id/fragment_event_data_form" />
     </fragment>
 </navigation>

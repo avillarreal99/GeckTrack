@@ -10,6 +10,7 @@ package com.example.gecktrack.ui.mygecks;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,101 +102,125 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
         List<GeckoModel> geckos = dbHelper.getGeckoList();
 
-        // for each gecko in List geckos
-        for (GeckoModel gecko: geckos)
+        // user has not created geckos, show message
+        if(geckos.isEmpty())
         {
-            // create a horizontal linear layout for each gecko.
-            LinearLayout geckoInfoCell = new LinearLayout(getContext());
-            geckoInfoCell.setOrientation(LinearLayout.HORIZONTAL);
-            geckoInfoCell.setClickable(true);
-            // geckoInfoCell.setBackgroundColor(Color.);
+            // Create text views for message, add it to layout
+            TextView nogeckosMessage1 = new TextView(getContext());
+            nogeckosMessage1.setTextColor(getResources().getColor(R.color.data_input_color));
+            nogeckosMessage1.setTextSize(24);
+            nogeckosMessage1.setGravity(Gravity.CENTER);
+            nogeckosMessage1.setText(R.string.no_geckos_message1);
+            nogeckosMessage1.setPadding(20,450,20,50);
 
-            // Create image view for each gecko
-            ImageView geckoPhoto = new ImageView(getContext());
-            geckoPhoto.setBackgroundResource(R.drawable.aftcarebutton);
-            LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(300, 300);
-            geckoPhoto.setLayoutParams(layoutParams1);
+            TextView nogeckosMessage2 = new TextView(getContext());
+            nogeckosMessage2.setTextColor(getResources().getColor(R.color.data_input_color));
+            nogeckosMessage2.setTextSize(20);
+            nogeckosMessage2.setGravity(Gravity.CENTER);
+            nogeckosMessage2.setText(R.string.no_geckos_message2);
+            nogeckosMessage2.setPadding(100,0,100,0);
 
-            // gecko has no added photo
-            if (gecko.getPhotoID().contains("No photo"))
+            geckoListHolder.addView(nogeckosMessage1);
+            geckoListHolder.addView(nogeckosMessage2);
+        }
+        // user has geckos, display them
+        else
+        {
+            // for each gecko in List geckos
+            for (GeckoModel gecko : geckos)
             {
-                geckoPhoto.setBackgroundResource(R.drawable.daycarebutton);
-            }
-            else // user added a photo, show the photo
-            {
-                System.out.println(gecko.getName() + "'s image URI: " + gecko.getPhotoID());
-                Uri image = Uri.parse(gecko.getPhotoID());
-                //geckoPhoto.setImageURI(image);
-            }
+                // create a horizontal linear layout for each gecko.
+                LinearLayout geckoInfoCell = new LinearLayout(getContext());
+                geckoInfoCell.setOrientation(LinearLayout.HORIZONTAL);
+                geckoInfoCell.setClickable(true);
+                // geckoInfoCell.setBackgroundColor(Color.);
 
-            // Create a text view for each gecko name
-            TextView geckoName = new TextView(getContext());
-            geckoName.setTextColor(getResources().getColor(R.color.white));
-            geckoName.setTextSize(20);
-            geckoName.setTypeface(null, Typeface.BOLD); // bold name
-            geckoName.setText("    " + gecko.getName());
+                // Create image view for each gecko
+                ImageView geckoPhoto = new ImageView(getContext());
+                geckoPhoto.setBackgroundResource(R.drawable.aftcarebutton);
+                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(300, 300);
+                geckoPhoto.setLayoutParams(layoutParams1);
 
-            // Create a text view for each gecko info
-            TextView geckoInfo = new TextView(getContext());
-            geckoInfo.setTextColor(getResources().getColor(R.color.data_input_color));
-            geckoInfo.setTextSize(18);
-
-            String geckoAge;
-
-            // if gecko has no birthday, age is unknown
-            if (gecko.getAge().contains("-1 year(s)"))
-            {
-                geckoAge = "Age Unknown";
-            }
-            else
-            {
-                geckoAge = gecko.getAge();
-            }
-
-            geckoInfo.setText("    " + gecko.getGeckoSpecies() + "\n" +
-                              "    " + gecko.getMorph() + "\n" +
-                              "    " + geckoAge + "\n\n");
-
-            // add name and info to its own layout
-            LinearLayout geckoTextData = new LinearLayout(getContext());
-            geckoTextData.setOrientation(LinearLayout.VERTICAL);
-            geckoTextData.addView(geckoName);
-            geckoTextData.addView(geckoInfo);
-
-            // create image view for gecko's gender
-            ImageView geckoGenderIcon = new ImageView(getContext());
-
-            if(gecko.getSex().contains("Female"))
-            {
-                geckoGenderIcon.setBackgroundResource(R.drawable.femaleicon);
-            }
-            else if(gecko.getSex().contains("Male"))
-            {
-                geckoGenderIcon.setBackgroundResource(R.drawable.maleicon);
-            }
-            else // gender = unknown
-            {
-                geckoGenderIcon.setBackgroundResource(R.drawable.unknownicon);
-            }
-
-            LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(50, 50);
-            geckoGenderIcon.setLayoutParams(layoutParams2);
-
-            // build gecko data cell to horizontal layout
-            geckoInfoCell.addView(geckoPhoto);
-            geckoInfoCell.addView(geckoTextData);
-            geckoInfoCell.addView(geckoGenderIcon);
-            geckoInfoCell.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
+                // gecko has no added photo
+                if (gecko.getPhotoID().contains("No photo"))
                 {
-                    geckoSelected(gecko);
+                    geckoPhoto.setBackgroundResource(R.drawable.noimagegecko);
                 }
-            });
+                else // user added a photo, show the photo
+                {
+                    System.out.println(gecko.getName() + "'s image URI: " + gecko.getPhotoID());
+                    Uri image = Uri.parse(gecko.getPhotoID());
+                    //geckoPhoto.setImageURI(image);
+                }
 
-            // add data cell to vertical layout
-            geckoListHolder.addView(geckoInfoCell);
+                // Create a text view for each gecko name
+                TextView geckoName = new TextView(getContext());
+                geckoName.setTextColor(getResources().getColor(R.color.white));
+                geckoName.setTextSize(20);
+                geckoName.setTypeface(null, Typeface.BOLD); // bold name
+                geckoName.setText("    " + gecko.getName());
+
+                // Create a text view for each gecko info
+                TextView geckoInfo = new TextView(getContext());
+                geckoInfo.setTextColor(getResources().getColor(R.color.data_input_color));
+                geckoInfo.setTextSize(18);
+
+                String geckoAge;
+
+                // if gecko has no birthday, age is unknown
+                if (gecko.getAge().contains("-1 year(s)"))
+                {
+                    geckoAge = "Age Unknown";
+                }
+                else
+                {
+                    geckoAge = gecko.getAge();
+                }
+
+                geckoInfo.setText("    " + gecko.getGeckoSpecies() + "\n" +
+                        "    " + gecko.getMorph() + "\n" +
+                        "    " + geckoAge + "\n\n");
+
+                // add name and info to its own layout
+                LinearLayout geckoTextData = new LinearLayout(getContext());
+                geckoTextData.setOrientation(LinearLayout.VERTICAL);
+                geckoTextData.addView(geckoName);
+                geckoTextData.addView(geckoInfo);
+
+                // create image view for gecko's gender
+                ImageView geckoGenderIcon = new ImageView(getContext());
+
+                if (gecko.getSex().contains("Female"))
+                {
+                    geckoGenderIcon.setBackgroundResource(R.drawable.femaleicon);
+                }
+                else if (gecko.getSex().contains("Male"))
+                {
+                    geckoGenderIcon.setBackgroundResource(R.drawable.maleicon);
+                }
+                else // gender = unknown
+                {
+                    geckoGenderIcon.setBackgroundResource(R.drawable.unknownicon);
+                }
+
+                LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(50, 50);
+                geckoGenderIcon.setLayoutParams(layoutParams2);
+
+                // build gecko data cell to horizontal layout
+                geckoInfoCell.addView(geckoPhoto);
+                geckoInfoCell.addView(geckoTextData);
+                geckoInfoCell.addView(geckoGenderIcon);
+                geckoInfoCell.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v) {
+                        geckoSelected(gecko);
+                    }
+                });
+
+                // add data cell to vertical layout
+                geckoListHolder.addView(geckoInfoCell);
+            }
         }
     }
 

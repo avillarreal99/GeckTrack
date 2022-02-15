@@ -80,6 +80,11 @@
     <string name="unknown">Unknown</string>
     <string name="all_geckos">All geckos</string>
     <string name="disabled">Disabled</string>
+    <string name="date_placeholder">September 30, 2020</string>
+    <string name="no_events_message2">Press the + button in the top right to create a new event!</string>
+    <string name="no_events_message1">No events for this day!</string>
+    <string name="no_geckos_message2">Press the + button in the top right to create a new gecko!</string>
+    <string name="no_geckos_message1">You haven\'t added any geckos!</string>
     <string-array name="GeckoSpeciesOptions">
         <item>Leopard</item>
         <item>African Fat-Tailed</item>
