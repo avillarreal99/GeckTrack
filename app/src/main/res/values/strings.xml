@@ -85,6 +85,7 @@
     <string name="no_events_message1">No events for this day!</string>
     <string name="no_geckos_message2">Press the + button in the top right to create a new gecko!</string>
     <string name="no_geckos_message1">You haven\'t added any geckos!</string>
+    <string name="no_upcoming_events1">No upcoming events!</string>
     <string-array name="GeckoSpeciesOptions">
         <item>Leopard</item>
         <item>African Fat-Tailed</item>

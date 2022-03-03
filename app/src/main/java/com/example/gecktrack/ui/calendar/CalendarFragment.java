@@ -22,9 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
-
-//import com.applandeo.materialcalendarview.EventDay;
-//import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
 import com.example.gecktrack.ui.SharedViewModel;
@@ -33,7 +30,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -120,6 +117,7 @@ public class CalendarFragment extends Fragment
         });
     }
 
+    // message for when user has no geckos, cannot create events
     public void noGeckosPrompt()
     {
         // create alert message if no geckos have been created
@@ -138,7 +136,6 @@ public class CalendarFragment extends Fragment
                 dialog.dismiss();
             }
         });
-
 
         // configure alert dialog
         AlertDialog alertMessage = alert.create();

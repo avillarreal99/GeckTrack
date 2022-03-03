@@ -54,7 +54,7 @@
             android:layout_height="200dp"
             android:layout_marginTop="28dp"
             android:contentDescription="@string/the_user_s_gecko"
-            android:src="@drawable/tokaycarebutton"
+            android:src="@drawable/noimagegecko"
             app:layout_constraintBottom_toTopOf="@+id/TextView_GeckoTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

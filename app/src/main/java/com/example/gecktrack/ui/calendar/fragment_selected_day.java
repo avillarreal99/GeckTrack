@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
 import com.example.gecktrack.ui.SharedViewModel;
+import com.example.gecktrack.ui.mygecks.GeckoModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.DateFormatSymbols;
 import java.util.List;
@@ -202,6 +203,11 @@ public class fragment_selected_day extends Fragment
                 eventCell.setOrientation(LinearLayout.HORIZONTAL);
                 LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(215, 75);
 
+                // separator before buttons
+                TextView separator1 = new TextView(getContext());
+                LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(60, 75);
+                separator1.setLayoutParams(layoutParams3);
+
                 // delete button for each event
                 Button delete = new Button(getContext());
                 delete.setText(R.string.delete);
@@ -218,6 +224,10 @@ public class fragment_selected_day extends Fragment
                     }
                 });
 
+                // separator between buttons
+                TextView separator2 = new TextView(getContext());
+                separator2.setLayoutParams(layoutParams3);
+
                 // edit button for each event
                 Button edit = new Button(getContext());
                 edit.setText(R.string.edit);
@@ -230,14 +240,23 @@ public class fragment_selected_day extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        // add editing functionality
+                        viewModel.setEvent(event);
+                        Navigation.findNavController(getView()).navigate(R.id.action_fragment_selected_day_to_fragment_event_data_form);
                     }
                 });
 
+                // separator between events
+                TextView separatorEvents = new TextView(getContext());
+                LinearLayout.LayoutParams layoutParams4 = new LinearLayout.LayoutParams(0, 75);
+                //separatorEvents.setLayoutParams(layoutParams4);
+
                 // add buttons to their layout
+                eventButtons.addView(separator1);
                 eventButtons.addView(delete);
+                eventButtons.addView(separator2);
                 eventButtons.addView(edit);
                 eventInfoCell.addView(eventButtons);
+                eventInfoCell.addView(separatorEvents);
 
                 // add all views to event cell in order to complete formatting
                 eventCell.addView(eventType);
@@ -300,14 +319,26 @@ public class fragment_selected_day extends Fragment
     public void initializeAddButton()
     {
         Button addButton = getView().findViewById(R.id.Button_AddEvent);
-
         addButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                // open event data form
-                Navigation.findNavController(getView()).navigate(R.id.action_fragment_selected_day_to_fragment_event_data_form);
+                DatabaseHelper db = new DatabaseHelper(getContext());
+                List<GeckoModel> geckos = db.getGeckoList();
+                viewModel.setEvent(null);
+
+                // user has no created geckos, cannot add events
+                if(geckos.isEmpty())
+                {
+                    noGeckosPrompt();
+                }
+                // else, user has geckos, can create events
+                else
+                {
+                    // open event data form
+                    Navigation.findNavController(getView()).navigate(R.id.action_fragment_selected_day_to_fragment_event_data_form);
+                }
             }
         });
     }
@@ -326,5 +357,31 @@ public class fragment_selected_day extends Fragment
                 Navigation.findNavController(getView()).navigate(R.id.action_fragment_selected_day_to_schedule_page);
             }
         });
+    }
+
+    // message for when user has no geckos, cannot create events
+    public void noGeckosPrompt()
+    {
+        // create alert message if no geckos have been created
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("You can't make events yet!");
+        alert.setMessage("It looks like you haven't added any geckos. In GeckTrack, events are " +
+                "created for your geckos, so you must have at least one gecko to make " +
+                "events. Go to the My Gecks page and create a new gecko!");
+
+        // Listener for Yes option
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // close the dialog
+                dialog.dismiss();
+            }
+        });
+
+        // configure alert dialog
+        AlertDialog alertMessage = alert.create();
+        alertMessage.show();
+        alertMessage.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.GREEN);
     }
 }

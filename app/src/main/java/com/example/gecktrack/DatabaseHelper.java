@@ -12,15 +12,25 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.util.EventLog;
+
 import android.util.EventLog;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
+import com.example.gecktrack.ui.EventDayMap;
 import com.example.gecktrack.ui.calendar.EventModel;
 import com.example.gecktrack.ui.mygecks.GeckoModel;
 
-import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -260,6 +270,28 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }
     }
 
+    // edit preexisting event in database
+    public void editEvent(EventModel event)
+    {
+        // access database and write query
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // create columns with updated data
+        cv.put("EventName", event.getName());
+        cv.put("Type", event.getType());
+        cv.put("Date", event.getDate());
+        cv.put("Time", event.getTime());
+        cv.put("Notifications", event.getNotifications());
+        cv.put("Notes", event.getNotes());
+        cv.put("Geckos", event.getGeckos());
+
+        // update the correct gecko with the new values
+        db.update("EVENT", cv, "GeckoID = " + event.getID(), null);
+        db.close();
+    }
+
+
     // get ALL of the users inputted events
     public List<EventModel> getTotalEventList()
     {
@@ -317,6 +349,73 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }
 
         return dates;
+    }
+
+    // get the next three upcoming events for Home Page
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<EventDayMap> getTop3Events()
+    {
+        // initial list of all existing events, past and upcoming
+        List<EventModel> allEvents = getTotalEventList();
+        // list of narrowed down, upcoming events
+        List<EventDayMap> tempEvents = new ArrayList<>();
+        // final list, returns top 3 upcoming events
+        List<EventDayMap> top3Events = new ArrayList<>();
+
+        // look at all events
+        for (EventModel event : allEvents)
+        {
+            // get each part of event's date to turn into LocalDate
+            String m = event.getDate().substring(0,2);
+            String d = event.getDate().substring(3,5);
+            String y = event.getDate().substring(6,10);
+
+            LocalDate today = LocalDate.now();
+            LocalDate date = LocalDate.of(Integer.parseInt(y), Month.of(Integer.parseInt(m)),
+                                          Integer.parseInt(d));
+
+            // find time in between today and current event in days
+            long timeBetween = ChronoUnit.DAYS.between(today, date);
+            int days = (int)timeBetween;
+
+            // event hasn't passed yet, it is an upcoming event
+            if (timeBetween >= 0)
+            {
+                tempEvents.add(new EventDayMap(event, days));
+            }
+        }
+
+        // user has no events, abort
+        if (tempEvents.isEmpty())
+        {
+            return top3Events;
+        }
+
+        // sort all events by days until
+        Collections.sort(tempEvents, new Comparator<EventDayMap>()
+        {
+            @Override
+            public int compare(EventDayMap e1, EventDayMap e2)
+            {
+                return Integer.compare(e1.getDaysUntil(), e2.getDaysUntil());
+            }
+        });
+
+        // at least three dates, get top 3
+        if (tempEvents.size() >= 3)
+        {
+            // get top 3 dates
+            for (int i = 0; i < 3; i++)
+            {
+                top3Events.add(tempEvents.get(i));
+            }
+        }
+        else // temp events is 1 or 2, add them all to top 3
+        {
+            top3Events.addAll(tempEvents);
+        }
+
+        return top3Events;
     }
 
     // get the users inputted events for the selected day
@@ -498,5 +597,115 @@ public class DatabaseHelper extends SQLiteOpenHelper
             }
 
         }
+    }
+
+    // get events in care category for selected gecko
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<EventDayMap> getGeckoEventsInCategory(GeckoModel gecko, String category)
+    {
+        // list holds all events that match event category
+        List<EventModel> tempEvents = new ArrayList<>();
+
+        // list holds all events that match gecko ID AND event category
+        List<EventModel> matchingEvents = new ArrayList<>();
+
+        // list holds all matching events sorted by date
+        List<EventDayMap> sortedEvents = new ArrayList<>();
+
+        String getEventsQuery = "SELECT * FROM EVENT WHERE Type = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // cursor is result set from query
+        Cursor cursor = db.rawQuery(getEventsQuery, new String[] {category});
+
+        if(cursor.moveToFirst())
+        {
+            // loop through cursor set, get relevant data
+            do
+            {
+                int    ID             = cursor.getInt(0);
+                String name           = cursor.getString(1);
+                String type           = cursor.getString(2);
+                String date           = cursor.getString(3);
+                String time           = cursor.getString(4);
+                String notifications  = cursor.getString(5);
+                String notes          = cursor.getString(6);
+                String geckos         = cursor.getString(7);
+
+                // create new event, add to returnList
+                EventModel event = new EventModel(ID, name, type, date, time, notifications,
+                        notes, geckos);
+                tempEvents.add(event);
+
+            } while(cursor.moveToNext());
+        }
+        else
+        {
+            // failed, list is probably empty
+        }
+
+        // close cursor and db
+        cursor.close();
+        db.close();
+
+        // cursor succeeded, but found no events in the selected category
+        if (tempEvents.isEmpty())
+        {
+            // return empty list
+            return sortedEvents;
+        }
+
+        // check each matching event for matching gecko
+        for (EventModel e1 : tempEvents)
+        {
+            // use scanner to get each individual ID from event
+            Scanner geckosInEvent = new Scanner(e1.getGeckos()).useDelimiter(" ");
+
+            // loop through separated strings
+            while (geckosInEvent.hasNext())
+            {
+                String geckoID = geckosInEvent.next();
+
+                // filter out events that don't contain selected gecko
+                if (geckoID.matches(String.valueOf(gecko.getID())))
+                {
+                    matchingEvents.add(e1);
+                }
+            }
+        }
+
+        // look at all events
+        for (EventModel event : matchingEvents)
+        {
+            // get each part of event's date to turn into LocalDate
+            String m = event.getDate().substring(0,2);
+            String d = event.getDate().substring(3,5);
+            String y = event.getDate().substring(6,10);
+
+            LocalDate today = LocalDate.now();
+            LocalDate date = LocalDate.of(Integer.parseInt(y), Month.of(Integer.parseInt(m)),
+                    Integer.parseInt(d));
+
+            // find time in between today and current event in days
+            long timeBetween = ChronoUnit.DAYS.between(today, date);
+            int days = (int)timeBetween;
+
+            sortedEvents.add(new EventDayMap(event, days));
+        }
+
+        // sort all events by days until
+        Collections.sort(sortedEvents, new Comparator<EventDayMap>()
+        {
+            @Override
+            public int compare(EventDayMap e1, EventDayMap e2)
+            {
+                return Integer.compare(e1.getDaysUntil(), e2.getDaysUntil());
+            }
+        });
+
+        System.out.println("\nFound " + sortedEvents.size() + " event(s) after filtering:");
+        System.out.println(sortedEvents);
+
+        return sortedEvents;
     }
 }

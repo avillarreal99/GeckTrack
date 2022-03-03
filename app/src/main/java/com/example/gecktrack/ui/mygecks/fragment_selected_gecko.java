@@ -10,6 +10,7 @@ package com.example.gecktrack.ui.mygecks;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
@@ -136,6 +138,13 @@ public class fragment_selected_gecko extends Fragment implements View.OnClickLis
         else // gecko has an age
         {
             age.setText("Age: " + selectedGecko.getAge());
+        }
+
+        // set image if gecko has one
+        if (!selectedGecko.getPhotoID().matches("No photo"))
+        {
+            ImageView photo = getView().findViewById(R.id.ImageView_GeckoPhoto);
+            //photo.setImageURI(Uri.parse(selectedGecko.getPhotoID()));
         }
     }
 

@@ -44,7 +44,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/WelcomeSection_ConstraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="251dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
@@ -54,9 +54,9 @@
 
                 <ViewFlipper
                     android:id="@+id/ViewFlipperImages_GeckoImages"
-                    android:autoStart="true"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:autoStart="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -67,6 +67,8 @@
                     android:id="@+id/TextView_Welcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/welcome_to_gecktrack"
                     android:textColor="#C8FFFFFF"
                     android:textSize="24sp"
@@ -83,19 +85,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/UpcomingEventsSection_ConstraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="170dp">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/TextView_Temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/temp_string"
-                    android:textColor="#A8FFFFFF"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:id="@+id/LinearLayout_UpcomingEventsHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Care Tips Section -->
@@ -103,21 +99,26 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/TipsSection_ConstraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="411dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/TextView_CareTips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
                     android:text="@string/need_care_tips_select_a_gecko"
+                    android:textAlignment="center"
                     android:textColor="#ADFFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
                     android:layout_width="393dp"
                     android:layout_height="367dp"
                     app:layout_constraintBottom_toBottomOf="parent"

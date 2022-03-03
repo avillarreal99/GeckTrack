@@ -10,14 +10,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,11 +31,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
+import com.example.gecktrack.ui.EventDayMap;
 import com.example.gecktrack.ui.mygecks.GeckoModel;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.util.Collections;
 import java.util.List;
 
 // -------------------------------------------------------------------------------------------------
@@ -59,6 +65,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         // initialize page features
         initializeImageSlider();
         initializeCareTipButtons();
+        initializeUpcomingEvents();
         updateAge();
     }
 
@@ -255,9 +262,85 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             // set the age and update gecko
             gecko.setAge(formattedAge);
             dbHelper.updateAge(gecko);
-            System.out.println(gecko.getName() + "'s age was updated!");
         }
     }
 
 
+// UPCOMING EVENTS METHODS -------------------------------------------------------------------------
+
+
+    // display top 3 upcoming events
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void initializeUpcomingEvents()
+    {
+        // get top 3 events from database
+        DatabaseHelper db = new DatabaseHelper(getContext());
+        List <EventDayMap> top3Events = db.getTop3Events();
+
+        // xml views
+        LinearLayout upcomingEventsHolder = getView().findViewById(R.id.LinearLayout_UpcomingEventsHolder);
+
+        // no events
+        if(top3Events.isEmpty())
+        {
+            // Create text views for message, add it to layout
+            TextView noEventsMessage2 = new TextView(getContext());
+            noEventsMessage2.setTextColor(getResources().getColor(R.color.data_input_color));
+            noEventsMessage2.setTextSize(16);
+            noEventsMessage2.setGravity(Gravity.CENTER);
+            noEventsMessage2.setText(R.string.no_upcoming_events1);
+            noEventsMessage2.setBackgroundColor(getResources().getColor(R.color.background2_gray));
+            noEventsMessage2.setPadding(100,50,100,80);
+            upcomingEventsHolder.addView(noEventsMessage2);
+        }
+        // user has events, format them
+        else
+        {
+            // loop through top 3 events
+            for (EventDayMap event : top3Events)
+            {
+                // cell for each event
+                LinearLayout eventCell = new LinearLayout(getContext());
+                eventCell.setOrientation(LinearLayout.VERTICAL);
+                eventCell.setPadding(0,25,0,50);
+                eventCell.setBackgroundColor(getResources().getColor(R.color.background2_gray));
+
+                // TextView for each name
+                TextView eventName = new TextView(getContext());
+                eventName.setTextColor(getResources().getColor(R.color.data_input_color));
+                eventName.setTextSize(20);
+                eventName.setGravity(Gravity.CENTER);
+                eventName.setTypeface(null, Typeface.BOLD); // bold name
+                eventName.setText(event.getEvent().getName());
+
+                // TextView for days until event
+                TextView eventDays = new TextView(getContext());
+                eventDays.setTextColor(getResources().getColor(R.color.data_input_color));
+                eventDays.setTextSize(20);
+                eventDays.setGravity(Gravity.CENTER);
+
+                int daysUntil = event.getDaysUntil();
+
+                // determine which time measurement to display
+                if (daysUntil == 0)
+                {
+                    eventDays.setText("Today!");
+                }
+                else if (daysUntil == 1)
+                {
+                    eventDays.setText("Tomorrow!");
+                }
+                else
+                {
+                    String time = String.valueOf(daysUntil) + " days";
+                    eventDays.setText(time);
+                }
+
+                // add all views to hierarchy
+                eventCell.addView(eventName);
+                eventCell.addView(eventDays);
+                upcomingEventsHolder.addView(eventCell);
+            }
+        }
+    }
 }

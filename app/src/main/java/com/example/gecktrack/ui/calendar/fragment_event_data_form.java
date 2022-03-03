@@ -71,6 +71,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     Switch eventNotifications;
     EditText eventNotes;
     ChipGroup geckoChipGroup;
+    ArrayAdapter<CharSequence> typeAdapter;
 
     // Text label widgets from xml code
     TextView eventNameLabel;
@@ -81,7 +82,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     TextView notificationsStatus;
     TextView eventForGeckosLabel;
 
-    // variables to hold EventModel Data: *** CREATE EVENTMODEL.JAVA***
+    // variables to hold EventModel Data:
     String name;
     String type = "no value specified";
     String date = "Unknown";
@@ -99,7 +100,6 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     boolean validDate = false;
     boolean validTime = false;
     boolean validGeckoList = false;
-    boolean validNotifications = false;
 
     // Required empty public constructor
     public fragment_event_data_form() { }
@@ -146,7 +146,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
     }
 
 
-// EDITING GECKO METHODS ---------------------------------------------------------------------------
+// EDITING EVENT METHODS ---------------------------------------------------------------------------
 
 
     // check if user is editing or adding an event
@@ -174,11 +174,60 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         {
             adding = false;
             editing = true;
-            // editGecko = viewModel.getGecko().getValue();
-            //String instructionsString = "Edit " + editGecko.getName() + "'s information!";
-            //instructions.setText(instructionsString);
-            //preloadGeckoData();
+            editEvent = viewModel.getEvent().getValue();
+            String instructionsString = "Edit information for \"" + editEvent.getName() + "\"!";
+            instructions.setText(instructionsString);
+            preloadEventData();
             System.out.println("Editing a preexisting event!");
+        }
+    }
+
+    // fill all data cells with info of event being edited
+    public void preloadEventData()
+    {
+        // set all data to be event's data
+        name = editEvent.getName();
+        type = editEvent.getType();
+        date = editEvent.getDate();
+        String timeStr = editEvent.getTime();
+        time = timeStr.substring(0, 5);
+        AMPM = timeStr.substring(6, 8);
+        notifications = editEvent.getNotifications();
+        notes = editEvent.getNotes();
+
+        // SET GECKO LIST
+        //geckoIDs = editEvent.getGeckos();
+
+        // preload all user input fields to event data
+        notificationsStatus.setText(notifications);
+        eventName.setText(name);
+        eventDate.setText(date);
+        validateDate(date);
+        eventTime.setText(time);
+        eventNotes.setText(notes);
+
+        // preload spinner
+        int spinnerPosition = typeAdapter.getPosition(type);
+        eventTypeSpinner.setSelection(spinnerPosition);
+
+        // preload radio buttons
+        if (AMPM.contains("AM"))
+        {
+            AM.setChecked(true);
+        }
+        else if(AMPM.contains("PM"))
+        {
+            PM.setChecked(true);
+        }
+
+        // preload switch
+        if(notifications.matches("ON"))
+        {
+            eventNotifications.setChecked(true);
+        }
+        else if (notifications.matches("OFF"))
+        {
+            eventNotifications.setChecked(false);
         }
     }
 
@@ -434,7 +483,7 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
         eventTypeSpinner = getView().findViewById(R.id.Spinner_EventTypes);
 
         // Create an ArrayAdapter using the string array resource and a default spinner layout
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getContext(),
+        typeAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.EventTypeOptions, android.R.layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears
@@ -652,7 +701,6 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
             @Override
             public void onClick(View v)
             {
-
                 finalizeGeckos();
 
                 // format final time
@@ -664,6 +712,15 @@ public class fragment_event_data_form extends Fragment implements TextView.OnEdi
                 {
                     if (editing)
                     {
+                        // set final data for editing
+                        editEvent.setName(name);
+                        editEvent.setType(type);
+                        editEvent.setDate(date);
+                        editEvent.setTime(formattedTime);
+                        editEvent.setNotifications(notifications);
+                        editEvent.setNotes(notes);
+                        editEvent.setGeckos(finalGeckoList);
+
 
                     }
                     else if (adding)
