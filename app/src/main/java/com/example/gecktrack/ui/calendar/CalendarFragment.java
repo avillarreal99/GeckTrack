@@ -23,13 +23,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+//import com.applandeo.materialcalendarview.EventDay;
+//import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.gecktrack.DatabaseHelper;
 import com.example.gecktrack.R;
 import com.example.gecktrack.ui.SharedViewModel;
 import com.example.gecktrack.ui.mygecks.GeckoModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -44,7 +52,8 @@ public class CalendarFragment extends Fragment
     private SharedViewModel viewModel;
 
     // widgets
-    private CalendarView calendar;
+    private MaterialCalendarView calendarView;
+
 
 
 // CREATION METHODS --------------------------------------------------------------------------------
@@ -72,6 +81,8 @@ public class CalendarFragment extends Fragment
         // initialize page features
         initializeAddButton();
         initializeCalendar();
+
+
     }
 
 
@@ -87,8 +98,8 @@ public class CalendarFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                DatabaseHelper db = new DatabaseHelper(getContext());
-                List<GeckoModel> geckos = db.getGeckoList();
+                DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+                List<GeckoModel> geckos = dbHelper.getGeckoList();
 
                 // user has no created geckos, cannot add events
                 if(geckos.isEmpty())
@@ -143,39 +154,32 @@ public class CalendarFragment extends Fragment
     public void initializeCalendar()
     {
         //connecting to calendar
-        calendar  = getView().findViewById(R.id.calendarView);
+        calendarView = getView().findViewById(R.id.calendarView);
+        calendarView.setDateSelected(CalendarDay.today(), true);
+        decorateCalendar();
 
-
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
-        {
-
-            // month starts at 0, increment by 1 when using month
+        //listening for clicks on calendar days
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth)
-            {
-                // format date properly
-                String mon = "";
-                String day = "";
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                String currentDate, day, month;
 
-                if((month + 1) < 10)
-                {
-                    mon = "0" + String.valueOf(month + 1);
-                }
-                else
-                {
-                    mon =String.valueOf(month + 1);
+                day = String.valueOf(date.getDay());
+                month = String.valueOf(date.getMonth());
+
+
+                //if month number is 1 digit
+                if(date.getMonth() < 10){
+                    month = "0" + month;
                 }
 
-                if(dayOfMonth < 10)
-                {
-                    day = "0" + String.valueOf(dayOfMonth);
-                }
-                else
-                {
-                    day = String.valueOf(dayOfMonth);
+                //if day number is 1 digit
+                if(date.getDay() < 10){
+                    day = "0" + day;
                 }
 
-                launchDay(mon + "/" + day + "/" + year);
+                currentDate = month + "/" + day + "/" + String.valueOf(date.getYear());
+                launchDay(currentDate);
             }
         });
 
@@ -190,6 +194,24 @@ public class CalendarFragment extends Fragment
 
         // open selected day page
         Navigation.findNavController(getView()).navigate(R.id.action_schedule_page_to_fragment_selected_day);
+    }
+
+    public void decorateCalendar(){
+
+        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+
+        calendarView.setLeftArrow(R.drawable.ic_baseline_arrow_back_24);
+        calendarView.setRightArrow(R.drawable.ic_baseline_arrow_forward_24);
+
+        //if there are events
+        if(!dbHelper.getAllEventDates().isEmpty()) {
+
+            EventDecorator strOfEventDates = new EventDecorator (getResources().getColor(R.color.event_dot), dbHelper.getAllEventDates());
+
+            calendarView.addDecorator(strOfEventDates);
+            //calendarView.invalidateDecorators();
+
+        }
     }
 
 }

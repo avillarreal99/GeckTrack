@@ -12,6 +12,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.EventLog;
+
 import androidx.annotation.Nullable;
 
 import com.example.gecktrack.ui.calendar.EventModel;
@@ -300,6 +302,21 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.close();
 
         return returnList;
+    }
+
+    // get all dates (ONLY) for marking calendar events
+    public ArrayList<String> getAllEventDates()
+    {
+        ArrayList<String> dates = new ArrayList<>();
+        List<EventModel> events = getTotalEventList();
+
+        // get each individual date, add it to dates
+        for (EventModel event : events)
+        {
+            dates.add(event.getDate());
+        }
+
+        return dates;
     }
 
     // get the users inputted events for the selected day

@@ -148,7 +148,7 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
                 }
                 else // user added a photo, show the photo
                 {
-                    System.out.println(gecko.getName() + "'s image URI: " + gecko.getPhotoID());
+                    //System.out.println(gecko.getName() + "'s image URI: " + gecko.getPhotoID());
                     Uri image = Uri.parse(gecko.getPhotoID());
                     //geckoPhoto.setImageURI(image);
                 }
@@ -182,7 +182,7 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
                         "    " + geckoAge + "\n\n");
 
                 // add name and info to its own layout
-                LinearLayout geckoTextData = new LinearLayout(getContext());
+                LinearLayout geckoTextData = new LinearLayout(getContext()); //frame for gecko text data
                 geckoTextData.setOrientation(LinearLayout.VERTICAL);
                 geckoTextData.addView(geckoName);
                 geckoTextData.addView(geckoInfo);
@@ -203,6 +203,7 @@ public class MyGecksFragment extends Fragment implements View.OnClickListener
                     geckoGenderIcon.setBackgroundResource(R.drawable.unknownicon);
                 }
 
+                //linear layout for gecko gender picture
                 LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(50, 50);
                 geckoGenderIcon.setLayoutParams(layoutParams2);
 
