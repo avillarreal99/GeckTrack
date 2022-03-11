@@ -7,10 +7,13 @@
 
 
 package com.example.gecktrack.ui.calendar;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,6 +34,7 @@ import com.example.gecktrack.ui.mygecks.GeckoModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.DateFormatSymbols;
 import java.util.List;
+import java.util.Objects;
 
 
 // ------------------------------------------------------------------------------------------------
@@ -162,14 +166,21 @@ public class fragment_selected_day extends Fragment
             {
                 // create a horizontal linear layout for each event.
                 LinearLayout eventCell = new LinearLayout(getContext());
+                String imageColor;
                 eventCell.setOrientation(LinearLayout.HORIZONTAL);
                 eventCell.setPadding(0,50, 0, 0);
 
                 // create colored event dots (revisit to match event color)
+                //eventType.setBackgroundColor(Color.WHITE);
+
                 ImageView eventType = new ImageView(getContext());
-                eventType.setBackgroundResource(R.drawable.ic_event_type_dot_foreground);
-                eventType.setBackgroundColor(getResources().getColor(R.color.white));
-                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(50, 50);
+
+                //initialize dot image and then color it accordingly
+                @SuppressLint("UseCompatLoadingForDrawables") Drawable dot = requireContext().getDrawable(R.drawable.ic_event_type_dot_foreground);
+                dot = colorImage(dot, event.getType());
+
+                eventType.setImageDrawable(dot);
+                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(100, 100);
                 eventType.setLayoutParams(layoutParams1);
                 eventType.setPadding(25,0,0,0);
 
@@ -267,6 +278,48 @@ public class fragment_selected_day extends Fragment
             }
 
         }
+    }
+
+    private Drawable colorImage(Drawable image, String eventType){
+        int color;
+
+        switch (eventType){
+            case "Appointment":
+                color = getResources().getColor(R.color.appointment);
+                break;
+            case "Breeding":
+                color = getResources().getColor(R.color.breeding);
+                break;
+            case "Cleaning":
+                color = getResources().getColor(R.color.cleaning);
+                break;
+            case "Feeding":
+                color = getResources().getColor(R.color.feeding);
+                break;
+            case "Health":
+                color = getResources().getColor(R.color.health);
+                break;
+            case "Other":
+                color = getResources().getColor(R.color.other);
+                break;
+            case "Shedding":
+                color = getResources().getColor(R.color.shedding);
+                break;
+            case "Weighing":
+                color = getResources().getColor(R.color.weighing);
+                break;
+            default:
+                color = Color.WHITE;
+
+
+        }
+
+
+        image.setColorFilter(color, PorterDuff.Mode.MULTIPLY); //set the color to the event type
+
+        //leave this for Amanda
+
+        return image;
     }
 
     // ensure if the user wants to delete event, actually deletes event if yes

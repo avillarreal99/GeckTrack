@@ -18,11 +18,11 @@
     <color name="delete_color">#FB8A8A</color>
     
     <!-- Category Button colors -->
-    <color name="feeding">#f3045c</color>
-    <color name="shedding">#D84476</color>
-    <color name="appointment">#ef8587</color>
-    <color name="breeding">#ffbb93</color>
-    <color name="cleaning">#b6c275</color>
+    <color name="feeding">#DD5785</color>
+    <color name="shedding">#D690A9</color>
+    <color name="appointment">#EC9870</color>
+    <color name="breeding">#FFD793</color>
+    <color name="cleaning">#BDCC6A</color>
     <color name="weighing">#7aca91</color>
     <color name="health">#99C1D6</color>
     <color name="other">#8b7b96</color>
